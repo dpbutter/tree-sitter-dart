@@ -226,7 +226,10 @@ module.exports = grammar({
                 $.function_signature,
                 $.function_body
             ),
+            // Below replaces the subsequent three.
+            $.variable_declaration
             //    final or const static final declaration list
+            /*
             seq(
                 optional($._metadata),
                 choice(
@@ -252,6 +255,7 @@ module.exports = grammar({
                 $.initialized_identifier_list,
                 $._semicolon
             )
+            */
         ),
 
         /**************************************************************************************************
@@ -2154,7 +2158,7 @@ module.exports = grammar({
             '.',
             field('name', $.identifier)
         ),
-
+        /*
         variable_declaration: $ => seq(
             $._declared_identifier,
             optional(seq(
@@ -2162,7 +2166,14 @@ module.exports = grammar({
                 commaSep1($.identifier)
             ))
         ),
-
+        */
+        variable_declaration: $ => seq(
+            optional($._metadata), // ✅ Matches local variables
+            $.initialized_variable_definition, // ✅ Handles final, const, var, explicit types
+            $._semicolon
+        ),
+        
+        /*
         initialized_variable_definition: $ => seq(
             $._declared_identifier,
             optional(seq(
@@ -2170,6 +2181,16 @@ module.exports = grammar({
                 field('value', $._expression)
             )),
             repeat(seq(',', $.initialized_identifier))
+        ),
+        */
+        initialized_variable_definition: $ => seq(
+            field("type", optional($._declared_identifier)), // ✅ Type belongs to all variables
+            commaSep1($.variable_assignment),               // ✅ All variables are equal
+        ),
+
+        variable_assignment: $ => seq(
+            field("name", $.identifier),
+            optional(seq("=", field("value", $._expression)))
         ),
         // initialized_identifier: $ => seq(
         //   $.identifier,

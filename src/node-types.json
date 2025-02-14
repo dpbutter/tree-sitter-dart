@@ -10381,19 +10381,11 @@
           "named": true
         },
         {
-          "type": "const_builtin",
-          "named": true
-        },
-        {
           "type": "enum_declaration",
           "named": true
         },
         {
           "type": "extension_declaration",
-          "named": true
-        },
-        {
-          "type": "final_builtin",
           "named": true
         },
         {
@@ -10405,23 +10397,11 @@
           "named": true
         },
         {
-          "type": "function_type",
-          "named": true
-        },
-        {
           "type": "getter_signature",
           "named": true
         },
         {
           "type": "import_or_export",
-          "named": true
-        },
-        {
-          "type": "inferred_type",
-          "named": true
-        },
-        {
-          "type": "initialized_identifier_list",
           "named": true
         },
         {
@@ -10433,19 +10413,11 @@
           "named": true
         },
         {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
           "type": "part_directive",
           "named": true
         },
         {
           "type": "part_of_directive",
-          "named": true
-        },
-        {
-          "type": "record_type",
           "named": true
         },
         {
@@ -10457,23 +10429,11 @@
           "named": true
         },
         {
-          "type": "static_final_declaration_list",
-          "named": true
-        },
-        {
           "type": "type_alias",
           "named": true
         },
         {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
+          "type": "variable_declaration",
           "named": true
         }
       ]
@@ -14100,6 +14060,25 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "variable_declaration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "initialized_variable_definition",
           "named": true
         }
       ]
