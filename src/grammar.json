@@ -9372,18 +9372,6 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_metadata"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
               "name": "_covariant"
             },
             {
@@ -9394,10 +9382,6 @@
         {
           "type": "SYMBOL",
           "name": "_final_const_var_or_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_declared_identifier"
         },
         {
           "type": "SYMBOL",
@@ -12249,13 +12233,6 @@
     [
       "super_formal_parameter",
       "unconditional_assignable_selector"
-    ],
-    [
-      "_type",
-      "function_type"
-    ],
-    [
-      "function_type"
     ]
   ],
   "precedences": [],

@@ -170,8 +170,6 @@ module.exports = grammar({
         [$._type_not_void],
         [$._type_not_void_not_function],
         [$.super_formal_parameter, $.unconditional_assignable_selector],
-        [$._type, $.function_type],
-        [$.function_type]
     ],
 
     word: $ => $.identifier,
@@ -2187,10 +2185,9 @@ module.exports = grammar({
         ),
         */
         initialized_variable_definition: $ => seq(
-            optional($._metadata),
+            // optional($._metadata),
             optional($._covariant),
             $._final_const_var_or_type,
-            $._declared_identifier,
             $.initialized_identifier,
             repeat(seq(',', $.initialized_identifier))
         ),
