@@ -170,6 +170,8 @@ module.exports = grammar({
         [$._type_not_void],
         [$._type_not_void_not_function],
         [$.super_formal_parameter, $.unconditional_assignable_selector],
+        [$._type, $.function_type],
+        [$.function_type]
     ],
 
     word: $ => $.identifier,
@@ -2158,6 +2160,7 @@ module.exports = grammar({
             '.',
             field('name', $.identifier)
         ),
+        
         /*
         variable_declaration: $ => seq(
             $._declared_identifier,
@@ -2184,14 +2187,50 @@ module.exports = grammar({
         ),
         */
         initialized_variable_definition: $ => seq(
+            optional($._metadata),
+            optional($._covariant),
+            $._final_const_var_or_type,
+            $._declared_identifier,
+            $.initialized_identifier,
+            repeat(seq(',', $.initialized_identifier))
+        ),
+
+        /*
+        We're modifying the above. It differs from the language spec, but parses
+        the three in a more symmetric way.
+        
+        _declared_identifier: $ => seq(
+            optional($._metadata),
+            optional($._covariant),
+            $._final_const_var_or_type,
+            field('name', $.identifier)
+        ),
+
+
+
+
+        */
+       /*
+        initialized_variable_definition: $ => seq(
             field("type", optional($._declared_identifier)), // ✅ Type belongs to all variables
             commaSep1($.variable_assignment),               // ✅ All variables are equal
         ),
-
+        */
+       /*
+        initialized_variable_definition: $ => seq(
+            field("type", optional($._declared_identifier)), // ✅ Type applies to all
+            commaSep1(seq(
+                field("name", $.identifier),
+                optional(seq('=', field("value", $._expression))) // ✅ Optional initialization
+            ))
+        ),
+        */
+        /*
         variable_assignment: $ => seq(
             field("name", $.identifier),
             optional(seq("=", field("value", $._expression)))
         ),
+        */
         // initialized_identifier: $ => seq(
         //   $.identifier,
         //   optional(seq('=', $._expression))
