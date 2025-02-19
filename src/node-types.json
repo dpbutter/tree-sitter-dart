@@ -2086,11 +2086,7 @@
           "named": true
         },
         {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "method_signature",
+          "type": "method_definition",
           "named": true
         }
       ]
@@ -3223,11 +3219,7 @@
           "named": true
         },
         {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "method_signature",
+          "type": "method_definition",
           "named": true
         }
       ]
@@ -3709,11 +3701,7 @@
           "named": true
         },
         {
-          "type": "function_body",
-          "named": true
-        },
-        {
-          "type": "method_signature",
+          "type": "method_definition",
           "named": true
         }
       ]
@@ -3798,6 +3786,25 @@
       "types": [
         {
           "type": "annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "external_function",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_signature",
           "named": true
         }
       ]
@@ -5195,6 +5202,29 @@
         },
         {
           "type": "unconditional_assignable_selector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "function_signature",
           "named": true
         }
       ]
@@ -7954,6 +7984,29 @@
     }
   },
   {
+    "type": "method_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "method_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "method_signature",
     "named": true,
     "fields": {},
@@ -10236,11 +10289,15 @@
           "named": true
         },
         {
+          "type": "external_function",
+          "named": true
+        },
+        {
           "type": "function_body",
           "named": true
         },
         {
-          "type": "function_signature",
+          "type": "function_definition",
           "named": true
         },
         {
@@ -12120,7 +12177,7 @@
     }
   },
   {
-    "type": "string_literal",
+    "type": "string_content",
     "named": true,
     "fields": {},
     "children": {
@@ -12133,6 +12190,21 @@
         },
         {
           "type": "template_substitution",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "string_content",
           "named": true
         }
       ]

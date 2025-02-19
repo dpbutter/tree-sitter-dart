@@ -193,12 +193,18 @@ module.exports = grammar({
             $.extension_declaration,
             $.enum_declaration,
             $.type_alias,
+
+            $.external_function,
+            /*
             seq(
+                // A function declaration must be external
                 optional($._metadata),
-                optional($._external_builtin),
+                // optional($._external_builtin),
+                $._external_builtin,
                 $.function_signature,
                 $._semicolon
             ),
+            */
             seq(
                 optional($._metadata),
                 optional($._external_builtin),
@@ -221,11 +227,17 @@ module.exports = grammar({
                 $.setter_signature,
                 $.function_body
             ),
+            
+            // Simple function definition
+            $.function_definition,
+            /*
             seq(
                 optional($._metadata),
                 $.function_signature,
                 $.function_body
             ),
+            */
+
             // Below replaces the subsequent three.
             $.variable_declaration
             //    final or const static final declaration list
@@ -346,6 +358,7 @@ module.exports = grammar({
         ),
         _string_literal_double_quotes: $ => seq(
             '"',
+            /*
             repeat(
                 choice(
                     $._template_chars_double_single,
@@ -355,10 +368,22 @@ module.exports = grammar({
                     $.template_substitution
                 )
             ),
+            */
+           optional(alias($.string_content_double, $.string_content)),
             '"'
+        ),
+        string_content_double: $ => repeat1(
+            choice(
+                $._template_chars_double_single,
+                '\'',
+                $.escape_sequence,
+                $._sub_string_test,
+                $.template_substitution
+            )
         ),
         _string_literal_single_quotes: $ => seq(
             '\'',
+            /*
             repeat(choice(
                 $._template_chars_single_single,
                 '"',
@@ -366,52 +391,73 @@ module.exports = grammar({
                 $._sub_string_test,
                 $.template_substitution
             )),
+            */
+            optional(alias($.string_content_single, $.string_content)),
             '\''
         ),
+
+        string_content_single: $ => repeat1(
+            choice(
+                $._template_chars_single_single,
+                '"',
+                $.escape_sequence,
+                $._sub_string_test,
+                $.template_substitution
+            ),
+        ),
+
         _string_literal_double_quotes_multiple: $ => prec.left(
             seq(
                 '"""',
-                repeat(choice(
-                    $._template_chars_double,
-                    '\'',
-                    '\"',
-                    $.escape_sequence,
-                    $._sub_string_test,
-                    $.template_substitution
-                )),
+                optional(alias($.string_content_double_multiple, $.string_content)),
                 '"""'
+            ),
+        ),
+        string_content_double_multiple: $ => repeat1(
+            choice(
+                $._template_chars_double,
+                '\'',
+                '\"',
+                $.escape_sequence,
+                $._sub_string_test,
+                $.template_substitution
             ),
         ),
         _string_literal_single_quotes_multiple: $ => prec.left(
             seq(
                 '\'\'\'',
-                repeat(choice(
-                    $._template_chars_single,
-                    '"',
-                    '\'',
-                    $.escape_sequence,
-                    $._sub_string_test,
-                    $.template_substitution
-                )),
+                optional(alias($.string_content_single_multiple, $.string_content)),
                 '\'\'\''
             ),
         ),
+        string_content_single_multiple: $=> repeat1(choice(
+            $._template_chars_single,
+            '"',
+            '\'',
+            $.escape_sequence,
+            $._sub_string_test,
+            $.template_substitution
+        )),
+
         _raw_string_literal_double_quotes: $ => seq(
             'r"',
-            repeat(choice(
-                $._template_chars_double_single,
-                // /[^\n"]*/,
-                '\'',
-                $._template_chars_raw_slash,
-                // '\\',
-                $._unused_escape_sequence,
-                $._sub_string_test,
-                '$'
-            )),
+            optional(alias($.raw_string_content_double, $.string_content)),
             '"'
         ),
+        raw_string_content_double: $ => repeat1(choice(
+            $._template_chars_double_single,
+            // /[^\n"]*/,
+            '\'',
+            $._template_chars_raw_slash,
+            // '\\',
+            $._unused_escape_sequence,
+            $._sub_string_test,
+            '$'
+        )),
+
         _raw_string_literal_single_quotes: $ => seq(
             'r\'',
+            /*
             repeat(choice(
                 $._template_chars_single_single,
                 // /[^\n']/,
@@ -422,12 +468,27 @@ module.exports = grammar({
                 $._sub_string_test,
                 '$'
             )),
+            */
+            optional(alias($.raw_string_content_single, $.string_content)),
             '\''
         ),
+
+        raw_string_content_single: $ => repeat1(choice(
+            $._template_chars_single_single,
+            // /[^\n']/,
+            '"',
+            $._template_chars_raw_slash,
+            // '\\',
+            $._unused_escape_sequence,
+            $._sub_string_test,
+            '$'
+        )),
+
         _raw_string_literal_double_quotes_multiple: $ => prec.left(
             seq(
                 'r"""',
                 // $._triple_double_quote_end,
+                /*
                 repeat(choice(
                     $._template_chars_double,
                     '\'',
@@ -438,14 +499,29 @@ module.exports = grammar({
                     $._sub_string_test,
                     '$'
                 )),
+                */
+                optional(alias($.raw_string_content_double_multiple, $.string_content)),
                 '"""'
                 // $._triple_double_quote_end
             ),
         ),
+
+        raw_string_content_double_multiple: $ => repeat1(choice(
+            $._template_chars_double,
+            '\'',
+            // '\\',
+            $._template_chars_raw_slash,
+            '"',
+            $._unused_escape_sequence,
+            $._sub_string_test,
+            '$'
+        )),
+
         _raw_string_literal_single_quotes_multiple: $ => prec.left(
             seq(
                 'r\'\'\'',
                 // $._triple_quote_end,
+                /*
                 repeat(choice(
                     $._template_chars_single,
                     '"',
@@ -456,10 +532,24 @@ module.exports = grammar({
                     $._sub_string_test,
                     '$'
                 )),
+                */
+               optional(alias($.raw_string_content_single_multiple, $.string_content)),
                 '\'\'\''
                 // $._triple_quote_end
             ),
         ),
+        raw_string_content_single_multiple: $ => repeat1(choice(
+            $._template_chars_single,
+            '"',
+            '\'',
+            // '\\',
+            $._template_chars_raw_slash,
+            $._unused_escape_sequence,
+            $._sub_string_test,
+            '$'
+        )),
+
+
         _triple_quote_end: $ => token('\'\'\''),
         _triple_double_quote_end: $ => token('"""'),
         template_substitution: $ => seq(
@@ -1656,7 +1746,8 @@ module.exports = grammar({
             '{',
               commaSep1TrailingComma($.enum_constant),
               optional(
-                seq(';', repeat(seq(optional($._metadata), $._class_member_definition)))
+                // seq(';', repeat(seq(optional($._metadata), $._class_member_definition)))
+                seq(';', repeat($._class_member_definition))
               ),
             '}'
         ),
@@ -1803,10 +1894,13 @@ module.exports = grammar({
         class_body: $ => seq(
             '{',
             repeat(
+                $._class_member_definition
+                /*
                 seq(
                     optional($._metadata),
                     $._class_member_definition
                 )
+                */
             ),
             '}'
         ),
@@ -1815,6 +1909,8 @@ module.exports = grammar({
             repeat(
                 choice(
                     seq(optional($._metadata), $.declaration, $._semicolon),
+                    $.method_definition
+                    /*
                     seq(
                         optional($._metadata),
                         seq(
@@ -1822,17 +1918,21 @@ module.exports = grammar({
                             $.function_body
                         ),
                     )
+                    */
                 )
             ),
             '}'
         ),
 
         _class_member_definition: $ => choice(
-            seq($.declaration, $._semicolon),
+            seq(optional($._metadata), $.declaration, $._semicolon),
+            $.method_definition,
+            /*
             seq(
                 $.method_signature,
                 $.function_body
             ),
+            */
         ),
 
         getter_signature: $ => seq(
@@ -1848,6 +1948,13 @@ module.exports = grammar({
             $._formal_parameter_part,
             optional($._native)
         ),
+
+        method_definition: $ => seq(
+            optional($._metadata),
+            $.method_signature,
+            $.function_body
+        ),
+
         method_signature: $ => choice(
             seq($.constructor_signature, optional($.initializers)),
             $.factory_constructor_signature,
@@ -1895,6 +2002,7 @@ module.exports = grammar({
                 optional($._external),
                 $.operator_signature
             ),
+
             seq(
                 optional($._external_and_static),
                 $.function_signature,
@@ -1904,6 +2012,7 @@ module.exports = grammar({
                 $._static,
                 $.function_signature,
             ),
+            
             // | static const 〈type〉? 〈staticFinalDeclarationList〉
             // | static final 〈type〉? 〈staticFinalDeclarationList〉
             // | static late final 〈type〉? 〈initializedIdentifierList〉
@@ -2447,6 +2556,24 @@ module.exports = grammar({
         inferred_type: $ => prec(
             DART_PREC.BUILTIN,
             'var',
+        ),
+
+        function_definition: $ => seq(
+            optional($._metadata),
+            $.function_signature,
+            $.function_body
+        ),
+
+        external_function: $ => seq(
+            optional($._metadata),
+            // optional($._external_builtin),
+            $._external_builtin,
+            $.function_signature,
+            $._semicolon
+        ),
+        
+        external_method: $=> seq(
+            
         ),
 
         function_body: $ => choice(
