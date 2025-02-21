@@ -3,6 +3,8 @@
 // Using the informal draft spec to support the newest features of dart
 // https://spec.dart.dev/DartLangSpecDraft.pdf
 
+// Current version: 2.13-dev, dated November 1, 2024
+
 const DIGITS = token(sep1(/[0-9]+/, /_+/))
 const HEX_DIGITS = token(sep1(/[A-Fa-f0-9]+/, '_'))
 
@@ -169,7 +171,7 @@ module.exports = grammar({
         [$._type_not_void_not_function, $._function_type_tail],
         [$._type_not_void],
         [$._type_not_void_not_function],
-        [$.super_formal_parameter, $.unconditional_assignable_selector],
+        [$.super_formal_parameter, $._unconditional_assignable_selector],
 
         // [$.throw_expression, $.call_expression],
         // [$.await_expression, $.call_expression],
@@ -247,8 +249,8 @@ module.exports = grammar({
             */
 
             // Below replaces the subsequent three.
-            // $.variable_declaration
-
+            $.global_variable_declaration,
+            /*
             //    final or const static final declaration list
             seq(
                 optional($._metadata),
@@ -274,7 +276,8 @@ module.exports = grammar({
                 choice($._type, $.inferred_type),
                 $.initialized_identifier_list,
                 $._semicolon
-            )            
+            ) 
+            */           
         ),
 
         /**************************************************************************************************
@@ -1153,7 +1156,9 @@ module.exports = grammar({
                     repeat($.selector)
                 ))
                 */
-                $.primary_selector
+                // $.primary_selector
+                $.primary_selector,
+                $._primary,
             )),
 
         postfix_operator: $ => $.increment_operator,
@@ -1170,14 +1175,19 @@ module.exports = grammar({
             // $.argument_part,
         )),
 
-        
+
+        /*
         primary_selector: $ => prec.right(seq(
-            choice($._primary, $.call_expression),
+            $._primary,
             repeat($.selector)
         )),
-        
-       
-        call_expression: $ => prec(DART_PREC.FUNCTION_CALL, seq(
+        */
+        primary_selector: $=> prec.right(DART_PREC.UNARY_POSTFIX-1, seq(
+            field("object", choice($._primary, $.primary_selector)),
+            field("selector", $.selector)
+        )),
+
+        call_expression: $ => prec.right(DART_PREC.FUNCTION_CALL, seq(
             field("function", $._postfix_expression),
             $.argument_part
         )),
@@ -1209,31 +1219,34 @@ module.exports = grammar({
 
 /*** 17.36 Assignable expressions ***/
 
-        assignable_expression: $ => prec(20, choice(
+        assignable_expression: $ => prec(DART_PREC.UNARY_POSTFIX-1, choice(
             seq($._primary, $._assignable_selector_part),
-            seq($.super, $.unconditional_assignable_selector),
+            // seq($._primary, $._assignable_selector),
+            // seq($.primary_selector, $._assignable_selector),
+            seq($.super, $._unconditional_assignable_selector),
             // seq($.constructor_invocation, $._assignable_selector_part),   // TODO: remove to agree with 3.0??
             $.identifier
         )),
-
+        
         _assignable_selector_part: $ => seq(
             repeat($.selector),
             $._assignable_selector
         ),
-
-        unconditional_assignable_selector: $ => choice(
+        
+       
+        _unconditional_assignable_selector: $ => choice(
             $.index_selector,
             seq('.', $.identifier)
         ),
 
-        conditional_assignable_selector: $ => choice(
+        _conditional_assignable_selector: $ => choice(
             seq('?.', $.identifier),
             seq('?', $.index_selector)
         ),
 
         _assignable_selector: $ => choice(
-            $.unconditional_assignable_selector,
-            $.conditional_assignable_selector
+            $._unconditional_assignable_selector,
+            $._conditional_assignable_selector
         ),
 
 
@@ -1339,11 +1352,11 @@ module.exports = grammar({
         ),
 
         // Exactly matches Dart specification
-        _primary: $ => prec.right(DART_PREC.UNARY_POSTFIX, choice(
+        _primary: $ => prec(DART_PREC.UNARY_POSTFIX, choice(
             $.this,
             seq(
                 $.super,
-                $.unconditional_assignable_selector
+                $._unconditional_assignable_selector
             ),
             seq(
                 $.super,
@@ -1356,6 +1369,8 @@ module.exports = grammar({
             $.const_object_expression,
             $.constructor_tearoff,
             $.parenthesized_expression,
+            
+            $.call_expression       // Modification of language spec.
             // $.class_literal,
             // $.switch_expression,
             // $.object_creation_expression,
@@ -2440,7 +2455,7 @@ module.exports = grammar({
             ))
         ),
         */
-        variable_declaration: $ => seq(
+        global_variable_declaration: $ => seq(
             optional($._metadata), // ✅ Matches local variables
             $.initialized_variable_definition, // ✅ Handles final, const, var, explicit types
             $._semicolon

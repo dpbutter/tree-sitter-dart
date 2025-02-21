@@ -1,10 +1,39 @@
-import 'some_file.dart' show ClassName, ClassName2;
-import 'some_file.dart' show ClassName;
-import 'some_file.dart' hide FunctionName;
-import 'file.dart' show A, B, C, D hide E,F,G,H;
-import 'dart:io' if (dart.library.html) 'dart:html';
+String foo = "Hello ${name}";
 
-import 'src/hw_none.dart'
-    if (dart.library.io) 'src/hw_io.dart'
-    if (dart.library.js_interop) 'src/hw_web.dart'
-    show foo;
+class Base {
+  void foo() {
+    print("Base foo");
+  }
+}
+
+class Derived extends Base {  // ✅ Class inheritance captured
+  @override
+  void foo() {
+    print("Derived foo");
+  }
+}
+
+void foo(int x) {
+  print("Function foo called with $x");
+}
+
+void main() {
+  foo(42);  // ✅ Function call
+
+  var obj = Derived();
+  obj.foo();  // ✅ Method call
+
+  var y = foo(10);  // ✅ Function call in assignment
+  var z = y + 5;  // ✅ Binary expression
+
+  var message = "Value: $z";  // ✅ String interpolation
+
+  void bar(int x, {int value = 42}) {  // ✅ Named parameters
+    print("Bar called with $x and value $value");
+  }
+
+  bar(3, value: y);  // ✅ Keyword argument
+
+  var shorthand = {"y": y};  // ✅ Shorthand property
+}
+
