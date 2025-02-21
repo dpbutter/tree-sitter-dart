@@ -9811,10 +9811,6 @@
           "named": true
         },
         {
-          "type": "primary_selector",
-          "named": true
-        },
-        {
           "type": "selector",
           "named": true
         },
