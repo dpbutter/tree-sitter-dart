@@ -2128,6 +2128,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "postfix_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "conditional_expression"
         },
         {
@@ -2177,10 +2181,6 @@
         {
           "type": "SYMBOL",
           "name": "prefix_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "postfix_expression"
         }
       ]
     },
@@ -3691,6 +3691,19 @@
       "content": {
         "type": "CHOICE",
         "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "assignable_expression"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "postfix_operator"
+              }
+            ]
+          },
           {
             "type": "SYMBOL",
             "name": "call_expression"
@@ -11887,3 +11900,4 @@
     "_literal"
   ]
 }
+

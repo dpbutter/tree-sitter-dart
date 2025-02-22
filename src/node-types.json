@@ -4082,6 +4082,10 @@
           "named": true
         },
         {
+          "type": "assignable_expression",
+          "named": true
+        },
+        {
           "type": "call_expression",
           "named": true
         },
@@ -4114,6 +4118,10 @@
           "named": true
         },
         {
+          "type": "postfix_operator",
+          "named": true
+        },
+        {
           "type": "primary_selector",
           "named": true
         },
@@ -4123,6 +4131,21 @@
         },
         {
           "type": "this",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "postfix_operator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "increment_operator",
           "named": true
         }
       ]

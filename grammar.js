@@ -837,6 +837,8 @@ module.exports = grammar({
 
         real_expression: $ => choice(
             
+            $.postfix_expression,
+
             $.conditional_expression,
             $.if_null_expression,
             $.logical_or_expression,
@@ -854,7 +856,6 @@ module.exports = grammar({
             $.multiplicative_expression,
             $.prefix_expression,
             
-            $.postfix_expression
             
             // $.type_cast_expression,
             // $.type_test_expression,
@@ -1226,7 +1227,7 @@ module.exports = grammar({
 /*** 17.35 Postfix Expressions ***/
 
         /*
-        postfix_expression: $ => prec.right(choice(
+        _postfix_expression: $ => prec.right(choice(
             seq(
                 $.assignable_expression,
                 $.postfix_operator
@@ -1240,13 +1241,15 @@ module.exports = grammar({
         )),
         */
 
-        postfix_expression: $ => prec(DART_PREC.UNARY_POSTFIX, choice(
-                /*
+        postfix_expression: $ => prec(
+            DART_PREC.UNARY_POSTFIX,
+            choice(
+                
                 seq(
                     $.assignable_expression,
                     $.postfix_operator
                 ),
-                */
+                
                 /*
                 seq(
                     $._primary,
