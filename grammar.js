@@ -178,8 +178,8 @@ module.exports = grammar({
         // [$._primary, $.function_signature]
         [$._expression, $._expression_without_cascade],
         [$.type_arguments, $.relational_expression, $.real_expression],
-        [$.relational_expression, $.postfix_expression]
-
+        [$.real_expression, $.call_expression],
+        
     ],
 
     word: $ => $.identifier,
@@ -855,7 +855,7 @@ module.exports = grammar({
             $.additive_expression,
             $.multiplicative_expression,
             $.prefix_expression,
-            
+            $._primary,
             
             // $.type_cast_expression,
             // $.type_test_expression,
@@ -896,8 +896,10 @@ module.exports = grammar({
                 )
             )
         ),
-        relational_expression: $ => prec( // neither
-            DART_PREC.Relational,
+        relational_expression: $ => prec.left( // neither
+            // DART_PREC.Relational,
+            // DART_PREC.TYPE_ARGUMENTS+1,
+            400,
             choice(
                 seq(
                     field("left", $.real_expression),
@@ -1220,7 +1222,8 @@ module.exports = grammar({
 
         await_expression: $ => prec.right(DART_PREC.UNARY_PREFIX, seq(
             'await',
-            $._unary_expression
+            // $._unary_expression
+            $.real_expression,
         )),
 
 
@@ -1241,7 +1244,7 @@ module.exports = grammar({
         )),
         */
 
-        postfix_expression: $ => prec(
+        postfix_expression: $ => prec.right(
             DART_PREC.UNARY_POSTFIX,
             choice(
                 
@@ -1258,7 +1261,6 @@ module.exports = grammar({
                 */
                 $.call_expression,
                 $.primary_selector,
-                $._primary,
             )),
 
         postfix_operator: $ => $.increment_operator,
@@ -1285,16 +1287,19 @@ module.exports = grammar({
         primary_selector: $=> prec(
             DART_PREC.UNARY_POSTFIX+1,
             seq(
-                field("object", choice($._primary, $.primary_selector)),
+                field("object", choice($._primary, $.primary_selector, $.call_expression)),
                 field("selector", $.selector)
             )
         ),
 
-        call_expression: $ => prec.right(
-            DART_PREC.FUNCTION_CALL,
+        call_expression: $ => prec.right(s
             seq(
-            // field("function", $.postfix_expression),
-                field("function", choice($._primary, $.primary_selector)),
+                // field("function", $.postfix_expression),
+                // field("function", choice($._primary, $.primary_selector)),
+                field("function", choice(
+                    $.primary_selector,
+                    $._primary
+                )),
                 field("arguments", $.argument_part)
             )
         ),
@@ -1325,8 +1330,8 @@ module.exports = grammar({
 
 
 /*** 17.36 Assignable expressions ***/
-
-        assignable_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX+1, choice(
+        // FIXME: check
+        assignable_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX, choice(
             seq($._primary, $._assignable_selector_part),
             // seq($._primary, $._assignable_selector),
             // seq($.primary_selector, $._assignable_selector),
@@ -1851,6 +1856,7 @@ module.exports = grammar({
             'if',
             // '(', $._expression, optional(seq('case', $._guarded_pattern)) , ')',
             '(', $._expression, ')',
+            // '(', $.relational_expression, ')',
             field('consequence', $._statement),
             optional(seq('else', field('alternative', $._statement)))
         )),

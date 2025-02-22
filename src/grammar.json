@@ -2181,6 +2181,10 @@
         {
           "type": "SYMBOL",
           "name": "prefix_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_primary"
         }
       ]
     },
@@ -2365,8 +2369,8 @@
       }
     },
     "relational_expression": {
-      "type": "PREC",
-      "value": 8,
+      "type": "PREC_LEFT",
+      "value": 400,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -3680,13 +3684,13 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_unary_expression"
+            "name": "real_expression"
           }
         ]
       }
     },
     "postfix_expression": {
-      "type": "PREC",
+      "type": "PREC_RIGHT",
       "value": 17,
       "content": {
         "type": "CHOICE",
@@ -3711,10 +3715,6 @@
           {
             "type": "SYMBOL",
             "name": "primary_selector"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_primary"
           }
         ]
       }
@@ -3789,6 +3789,10 @@
                 {
                   "type": "SYMBOL",
                   "name": "primary_selector"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "call_expression"
                 }
               ]
             }
@@ -3806,7 +3810,7 @@
     },
     "call_expression": {
       "type": "PREC_RIGHT",
-      "value": 18,
+      "value": 19,
       "content": {
         "type": "SEQ",
         "members": [
@@ -3818,11 +3822,11 @@
               "members": [
                 {
                   "type": "SYMBOL",
-                  "name": "_primary"
+                  "name": "primary_selector"
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "primary_selector"
+                  "name": "_primary"
                 }
               ]
             }
@@ -3877,7 +3881,7 @@
     },
     "assignable_expression": {
       "type": "PREC_RIGHT",
-      "value": 18,
+      "value": 17,
       "content": {
         "type": "CHOICE",
         "members": [
@@ -11854,8 +11858,8 @@
       "real_expression"
     ],
     [
-      "relational_expression",
-      "postfix_expression"
+      "real_expression",
+      "call_expression"
     ]
   ],
   "precedences": [],

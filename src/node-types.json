@@ -595,35 +595,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
-          "type": "await_expression",
-          "named": true
-        },
-        {
-          "type": "increment_operator",
-          "named": true
-        },
-        {
-          "type": "minus_operator",
-          "named": true
-        },
-        {
-          "type": "prefix_operator",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "tilde_operator",
+          "type": "real_expression",
           "named": true
         }
       ]
@@ -4074,14 +4050,6 @@
       "required": true,
       "types": [
         {
-          "type": "_literal",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
           "type": "assignable_expression",
           "named": true
         },
@@ -4090,47 +4058,11 @@
           "named": true
         },
         {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_tearoff",
-          "named": true
-        },
-        {
-          "type": "function_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_selector",
-          "named": true
-        },
-        {
-          "type": "new_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
           "type": "postfix_operator",
           "named": true
         },
         {
           "type": "primary_selector",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "this",
           "named": true
         }
       ]
@@ -4239,6 +4171,10 @@
           },
           {
             "type": "argument_part",
+            "named": true
+          },
+          {
+            "type": "call_expression",
             "named": true
           },
           {
@@ -4379,11 +4315,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "_literal",
+          "named": true
+        },
+        {
           "type": "additive_expression",
+          "named": true
+        },
+        {
+          "type": "argument_part",
           "named": true
         },
         {
@@ -4403,11 +4347,31 @@
           "named": true
         },
         {
+          "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
           "type": "equality_expression",
           "named": true
         },
         {
+          "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "if_null_expression",
+          "named": true
+        },
+        {
+          "type": "index_selector",
           "named": true
         },
         {
@@ -4420,6 +4384,14 @@
         },
         {
           "type": "multiplicative_expression",
+          "named": true
+        },
+        {
+          "type": "new_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
           "named": true
         },
         {
@@ -4436,6 +4408,14 @@
         },
         {
           "type": "shift_expression",
+          "named": true
+        },
+        {
+          "type": "super",
+          "named": true
+        },
+        {
+          "type": "this",
           "named": true
         }
       ]
