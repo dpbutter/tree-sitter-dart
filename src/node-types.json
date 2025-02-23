@@ -1910,6 +1910,44 @@
     }
   },
   {
+    "type": "external_getter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "getter_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "external_setter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "setter_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "factory_constructor_signature",
     "named": true,
     "fields": {},
@@ -1917,6 +1955,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "const_builtin",
+          "named": true
+        },
         {
           "type": "formal_parameter_list",
           "named": true
@@ -1936,24 +1978,35 @@
   {
     "type": "field_initializer",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "initializer_expression",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "initializer_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2202,10 +2255,6 @@
           "named": true
         },
         {
-          "type": "super_formal_parameter",
-          "named": true
-        },
-        {
           "type": "type_arguments",
           "named": true
         },
@@ -2424,6 +2473,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2460,6 +2519,29 @@
         },
         {
           "type": "void_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "getter_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "getter_signature",
           "named": true
         }
       ]
@@ -2528,7 +2610,47 @@
           "named": true
         },
         {
-          "type": "initialized_variable_definition",
+          "type": "const_builtin",
+          "named": true
+        },
+        {
+          "type": "final_builtin",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "inferred_type",
+          "named": true
+        },
+        {
+          "type": "initialized_identifier_list",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
+          "named": true
+        },
+        {
+          "type": "static_final_declaration_list",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "void_type",
           "named": true
         }
       ]
@@ -2848,7 +2970,7 @@
     }
   },
   {
-    "type": "initialized_variable_definition",
+    "type": "initialized_variable_declaration",
     "named": true,
     "fields": {},
     "children": {
@@ -3294,7 +3416,7 @@
           "named": true
         },
         {
-          "type": "initialized_variable_definition",
+          "type": "initialized_variable_declaration",
           "named": true
         }
       ]
@@ -3837,7 +3959,18 @@
   {
     "type": "optional_formal_parameters",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
@@ -3855,7 +3988,39 @@
           "named": true
         },
         {
+          "type": "const_builtin",
+          "named": true
+        },
+        {
+          "type": "constructor_param",
+          "named": true
+        },
+        {
+          "type": "final_builtin",
+          "named": true
+        },
+        {
           "type": "formal_parameter",
+          "named": true
+        },
+        {
+          "type": "formal_parameter_list",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "inferred_type",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
           "named": true
         },
         {
@@ -3863,7 +4028,27 @@
           "named": true
         },
         {
+          "type": "record_type",
+          "named": true
+        },
+        {
           "type": "throw_expression",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "type_parameters",
+          "named": true
+        },
+        {
+          "type": "void_type",
           "named": true
         }
       ]
@@ -4244,10 +4429,6 @@
       "required": false,
       "types": [
         {
-          "type": "annotation",
-          "named": true
-        },
-        {
           "type": "class_definition",
           "named": true
         },
@@ -4264,7 +4445,11 @@
           "named": true
         },
         {
-          "type": "function_body",
+          "type": "external_getter",
+          "named": true
+        },
+        {
+          "type": "external_setter",
           "named": true
         },
         {
@@ -4272,7 +4457,7 @@
           "named": true
         },
         {
-          "type": "getter_signature",
+          "type": "getter_definition",
           "named": true
         },
         {
@@ -4304,7 +4489,7 @@
           "named": true
         },
         {
-          "type": "setter_signature",
+          "type": "setter_definition",
           "named": true
         },
         {
@@ -4935,6 +5120,29 @@
     }
   },
   {
+    "type": "setter_definition",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "function_body",
+          "named": true
+        },
+        {
+          "type": "setter_signature",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "setter_signature",
     "named": true,
     "fields": {
@@ -5050,32 +5258,39 @@
   {
     "type": "static_final_declaration",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "real_expression",
-          "named": true
-        },
-        {
-          "type": "throw_expression",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "assignment_expression",
+            "named": true
+          },
+          {
+            "type": "cascade",
+            "named": true
+          },
+          {
+            "type": "real_expression",
+            "named": true
+          },
+          {
+            "type": "throw_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -5131,69 +5346,6 @@
     "type": "super",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "super_formal_parameter",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "const_builtin",
-          "named": true
-        },
-        {
-          "type": "final_builtin",
-          "named": true
-        },
-        {
-          "type": "formal_parameter_list",
-          "named": true
-        },
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "inferred_type",
-          "named": true
-        },
-        {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "type_parameters",
-          "named": true
-        },
-        {
-          "type": "void_type",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "superclass",
@@ -5338,11 +5490,59 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "_literal",
+          "named": true
+        },
+        {
+          "type": "argument_part",
+          "named": true
+        },
+        {
+          "type": "const_object_expression",
+          "named": true
+        },
+        {
+          "type": "constructor_tearoff",
+          "named": true
+        },
+        {
+          "type": "function_expression",
+          "named": true
+        },
+        {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "index_selector",
+          "named": true
+        },
+        {
+          "type": "new_expression",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "primary_selector",
+          "named": true
+        },
+        {
+          "type": "super",
+          "named": true
+        },
+        {
+          "type": "this",
+          "named": true
+        },
+        {
+          "type": "void_type",
           "named": true
         }
       ]
