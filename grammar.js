@@ -166,7 +166,6 @@ module.exports = grammar({
         [$._type_name, $.function_signature],
         // [$.relational_operator, $._shift_operator],
         [$.declaration, $._external],
-        [$.relational_expression],
         [$._function_type_tail],
         [$._type_not_void_not_function, $._function_type_tail],
         [$._type_not_void],
@@ -177,9 +176,32 @@ module.exports = grammar({
         // [$.await_expression, $.call_expression],
         // [$._primary, $.function_signature]
         [$._expression, $._expression_without_cascade],
+
+        [$.type_arguments, $.relational_expression],
         [$.type_arguments, $.relational_expression, $.real_expression],
         [$.real_expression, $.call_expression],
-        
+        [$.relational_expression, $.postfix_expression],
+        [$.relational_expression, $.call_expression],
+        [$.relational_expression, $.type_arguments], 
+        [$.postfix_expression, $.type_arguments], // Ensures ambiguity in `<b>`
+        [$.relational_expression, $._type_name],  // Directly prevents `_type_name` from overriding `<b>`        
+        [$.real_expression],
+        [$._primary, $.real_expression],
+        [$._primary, $.relational_expression],
+        [$.identifier, $.relational_expression],
+        [$._type_name, $.relational_expression],
+        [$.real_expression, $.relational_expression],
+        [$.type_parameters, $.relational_operator],
+
+        [$._primary, $.function_signature],
+        [$._primary, $._type_name, $._simple_formal_parameter],
+        [$._primary, $._function_formal_parameter],
+        [$.call_expression, $.relational_expression],
+
+        [$.function_signature, $.call_expression],
+        [$.type_arguments, $.type_parameters],
+        [$._type, $.type_parameter],
+        [$._strict_formal_parameter_list, $.arguments]
     ],
 
     word: $ => $.identifier,
@@ -833,19 +855,27 @@ module.exports = grammar({
             ')'
         ),
 
-
+        ambiguous_relational_or_call: $ => prec.right(
+            choice(
+                $.call_expression,
+                $.relational_expression,
+                // $.postfix_expression,
+        )),
 
         real_expression: $ => choice(
             
             $.postfix_expression,
 
+            
             $.conditional_expression,
             $.if_null_expression,
             $.logical_or_expression,
             $.logical_and_expression,
             $.equality_expression,
             
+
             $.relational_expression,
+            // $.ambiguous_relational_or_call,
 
             
             $.bitwise_or_expression,
@@ -855,6 +885,8 @@ module.exports = grammar({
             $.additive_expression,
             $.multiplicative_expression,
             $.prefix_expression,
+            
+
             $._primary,
             
             // $.type_cast_expression,
@@ -896,15 +928,12 @@ module.exports = grammar({
                 )
             )
         ),
-        relational_expression: $ => prec.left( // neither
-            // DART_PREC.Relational,
-            // DART_PREC.TYPE_ARGUMENTS+1,
-            400,
+        relational_expression: $ => prec.left(DART_PREC.Relational,
             choice(
                 seq(
-                    field("left", $.real_expression),
+                    field("left", choice($.real_expression, $._primary, $.identifier)),
                     field("operator", $.relational_operator), 
-                    field("right", $.real_expression)
+                    field("right", choice($.real_expression, $._primary, $.identifier))
                     
                     /*
                     choice(
@@ -1287,19 +1316,16 @@ module.exports = grammar({
         primary_selector: $=> prec(
             DART_PREC.UNARY_POSTFIX+1,
             seq(
-                field("object", choice($._primary, $.primary_selector, $.call_expression)),
+                field("object", choice($.call_expression, $.primary_selector, $._primary)),
                 field("selector", $.selector)
             )
         ),
 
-        call_expression: $ => prec.right(s
+
+        call_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX+1,
             seq(
                 // field("function", $.postfix_expression),
-                // field("function", choice($._primary, $.primary_selector)),
-                field("function", choice(
-                    $.primary_selector,
-                    $._primary
-                )),
+                field("function", choice($.call_expression, $.primary_selector, $._primary, $.identifier)),
                 field("arguments", $.argument_part)
             )
         ),
@@ -1464,9 +1490,7 @@ module.exports = grammar({
         ),
 
         // Exactly matches Dart specification
-        _primary: $ => 
-            prec(DART_PREC.UNARY_POSTFIX, 
-            choice(
+        _primary: $ => choice(
             $.this,
             seq(
                 $.super,
@@ -1491,7 +1515,7 @@ module.exports = grammar({
             // $.array_access,
             // $.method_invocation,
             // $.method_reference,
-        )),
+        ),
 
 
         parenthesized_expression: $ => seq('(', $._expression, ')'),
@@ -1550,7 +1574,6 @@ module.exports = grammar({
         ),
 
         index_selector: $ => seq('[', $._expression, ']'),
-
 
 
         type_arguments: $ => prec(
@@ -2684,16 +2707,18 @@ module.exports = grammar({
             $.void_type
         ),
         _type_not_void_not_function: $ => choice(
+            // FIXME: Swapped the below two.
+
+            // rewritten in accordance with the draft spec page 198
+            seq(
+                $._function_builtin_identifier,
+                optional($.nullable_type)
+            ),
             seq(
                 $._type_name,
                 optional($.type_arguments),
                 optional($.nullable_type)
             ),
-            // rewritten in accordance with the draft spec page 198
-            seq(
-                $._function_builtin_identifier,
-                optional($.nullable_type)
-            )
         ),
 
         function_type: $ => choice(
@@ -2792,6 +2817,7 @@ module.exports = grammar({
             $._type_not_void
         ),
 
+        // FIXME: Lowered precedence from 0 to -1. Back to 0.
         _type_name: $ => seq(
             alias(
                 $.identifier,
