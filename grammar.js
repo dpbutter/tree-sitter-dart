@@ -124,8 +124,8 @@ module.exports = grammar({
         [$.constructor_signature, $._formal_parameter_part],
         // [$._type_not_function, $._type_not_void],
         [$._expression],
-        // [$.real_expression, $._below_relational_expression],
-        [$.postfix_expression],
+        // [$._real_expression, $._below_relational_expression],
+        [$._postfix_expression],
         // [$.pattern_variable_declaration, $._var_or_type],
         // [$._final_const_var_or_type, $.pattern_variable_declaration],
         [$.type_arguments, $.relational_operator],
@@ -180,11 +180,11 @@ module.exports = grammar({
         [$.type_parameter, $._type_name],
         [$._normal_formal_parameter],
         [$._assignable_selector_part, $.selector],
-        [$._assignable_selector_part, $.postfix_expression],
+        [$._assignable_selector_part, $._postfix_expression],
         [$._primary, $.assignable_expression],
         [$._simple_formal_parameter, $.assignable_expression],
         // [$._type_name, $._primary, $.assignable_expression],
-        [$.assignable_expression, $.postfix_expression],
+        [$.assignable_expression, $._postfix_expression],
         // [$._type_name, $.assignable_expression],
         // [$._type_name, $.function_signature],
         [$._type_name, $._function_formal_parameter],
@@ -206,19 +206,19 @@ module.exports = grammar({
         [$._expression, $._expression_without_cascade],
 
         [$.type_arguments, $.relational_expression],
-        [$.type_arguments, $.relational_expression, $.real_expression],
-        [$.real_expression, $.call_expression],
-        [$.relational_expression, $.postfix_expression],
+        [$.type_arguments, $.relational_expression, $._real_expression],
+        [$._real_expression, $.call_expression],
+        [$.relational_expression, $._postfix_expression],
         [$.relational_expression, $.call_expression],
         [$.relational_expression, $.type_arguments], 
-        [$.postfix_expression, $.type_arguments], // Ensures ambiguity in `<b>`
+        [$._postfix_expression, $.type_arguments], // Ensures ambiguity in `<b>`
         [$.relational_expression, $._type_name],  // Directly prevents `_type_name` from overriding `<b>`        
-        [$.real_expression],
-        [$._primary, $.real_expression],
+        [$._real_expression],
+        [$._primary, $._real_expression],
         [$._primary, $.relational_expression],
         [$.identifier, $.relational_expression],
         [$._type_name, $.relational_expression],
-        [$.real_expression, $.relational_expression],
+        [$._real_expression, $.relational_expression],
         [$.type_parameters, $.relational_operator],
 
         [$._primary, $.function_signature],
@@ -1459,7 +1459,7 @@ module.exports = grammar({
         initializer_expression: $=> choice(
             $.assignment_expression,
             // $._conditional_expression,
-            $.real_expression,
+            $._real_expression,
             // FIXME: Add cascade
             // $.cascade,
             $.throw_expression
@@ -1694,7 +1694,7 @@ module.exports = grammar({
         _expression: $ => choice(
             $.assignment_expression,
             // $._conditional_expression,
-            $.real_expression,
+            $._real_expression,
             // FIXME: Add cascade
             // $.cascade,
             $.throw_expression,
@@ -1703,7 +1703,7 @@ module.exports = grammar({
         _expression_without_cascade: $ => choice(
             $.assignment_expression_without_cascade,
             // $._conditional_expression,
-            $.real_expression,
+            $._real_expression,
             $.throw_expression_without_cascade
         ),
         _expression_list: $=> commaSep1($._expression),
@@ -1839,7 +1839,7 @@ module.exports = grammar({
                 ),
                 seq(
                     // $.conditional_expression,
-                    $.real_expression,
+                    $._real_expression,
                     choice('..', '?..'),
                     $.cascade_section
                 )
@@ -1848,7 +1848,7 @@ module.exports = grammar({
 
         NEWcascade_section: $ => prec(
             DART_PREC.Cascade,
-            $.real_expression
+            $._real_expression
         ),
 
         cascade_section: $ => prec.left(
@@ -2019,13 +2019,13 @@ module.exports = grammar({
             choice(
                 $.call_expression,
                 $.relational_expression,
-                // $.postfix_expression,
+                // $._postfix_expression,
         )),
 
 
-        real_expression: $ => choice(
+        _real_expression: $ => choice(
             
-            $.postfix_expression,
+            $._postfix_expression,
     
             $.conditional_expression,
             $.if_null_expression,
@@ -2056,7 +2056,7 @@ module.exports = grammar({
         conditional_expression: $ => prec.right(
             DART_PREC.Conditional,
             seq(
-                $.real_expression,
+                $._real_expression,
                 seq(
                     '?',
                     field('consequence', $._expression_without_cascade),
@@ -2070,17 +2070,17 @@ module.exports = grammar({
 
         if_null_expression: $ => prec.left( //left
             DART_PREC.If_Null,
-            sep2($.real_expression,"??")
+            sep2($._real_expression,"??")
         ),
 
         /*** 17.26: Logical boolean expressions ***/
         logical_or_expression: $ => prec.left( //left
             DART_PREC.Logical_OR,
-            sep2($.real_expression, $.logical_or_operator)
+            sep2($._real_expression, $.logical_or_operator)
         ),
         logical_and_expression: $ => prec.left( //left
             DART_PREC.Logical_AND,
-            sep2($.real_expression, $.logical_and_operator)
+            sep2($._real_expression, $.logical_and_operator)
         ),
 
 
@@ -2088,11 +2088,11 @@ module.exports = grammar({
         equality_expression: $ => prec.left( //neither
             DART_PREC.Equality,
             choice(
-                sep2($.real_expression, $.equality_operator),
+                sep2($._real_expression, $.equality_operator),
                 seq(
                     $.super,
                     $.equality_operator,
-                    $.real_expression
+                    $._real_expression
                 )
             )
         ),
@@ -2109,22 +2109,22 @@ module.exports = grammar({
         relational_expression: $ => prec.left(DART_PREC.Relational,
             choice(
                 seq(
-                    field("left", choice($.real_expression, $._primary, $.identifier)),
+                    field("left", choice($._real_expression, $._primary, $.identifier)),
                     field("operator", $.relational_operator), 
-                    field("right", choice($.real_expression, $._primary, $.identifier))
+                    field("right", choice($._real_expression, $._primary, $.identifier))
                     
                     /*
                     choice(
                         // $.type_test,
                         // $.type_cast,
-                        seq($.relational_operator, $.real_expression)
+                        seq($.relational_operator, $._real_expression)
                     )
                     */
                 ),
                 seq(
                     $.super,
                     $.relational_operator,
-                    $.real_expression
+                    $._real_expression
                 ),
             )
         ),
@@ -2141,15 +2141,15 @@ module.exports = grammar({
                     // Modified to account for type casts being compared relationally!
                     // I am not certain this is what designers intended. (see other comments on github)
                     // optional(
-                    $.real_expression,
+                    $._real_expression,
                     $.relational_operator,
-                    $.real_expression
+                    $._real_expression
                     // choice(
                     //     $.type_test,
                     //     $.type_cast,
                     //     seq(
                     //         $.relational_operator,
-                    //         $.real_expression
+                    //         $._real_expression
                     //     )
                     // )
                     // ),
@@ -2169,7 +2169,7 @@ module.exports = grammar({
                 seq(
                     $.super,
                     $.relational_operator,
-                    $.real_expression
+                    $._real_expression
                 ),
             )
         ),
@@ -2182,7 +2182,7 @@ module.exports = grammar({
             DART_PREC.RelationalTypeCast,
             seq(
                 // $._below_relational_type_cast_expression,
-                $.real_expression,
+                $._real_expression,
                 $.type_cast,
             )
         ),
@@ -2190,7 +2190,7 @@ module.exports = grammar({
             DART_PREC.RelationalTypeTest,
             seq(
                 // $._below_relational_type_cast_expression,
-                $.real_expression,
+                $._real_expression,
                 $.type_test,
             )
         ),
@@ -2215,9 +2215,9 @@ module.exports = grammar({
 
         /*** 17.29: Bitwise expressions ***/
 
-        bitwise_or_expression: $ => binaryRunLeft($.real_expression, '|', $.super, DART_PREC.Bitwise_Or),
-        bitwise_xor_expression: $ => binaryRunLeft($.real_expression, '^', $.super, DART_PREC.Bitwise_XOR),
-        bitwise_and_expression: $ => binaryRunLeft($.real_expression, '&', $.super, DART_PREC.Bitwise_AND),
+        bitwise_or_expression: $ => binaryRunLeft($._real_expression, '|', $.super, DART_PREC.Bitwise_Or),
+        bitwise_xor_expression: $ => binaryRunLeft($._real_expression, '^', $.super, DART_PREC.Bitwise_XOR),
+        bitwise_and_expression: $ => binaryRunLeft($._real_expression, '&', $.super, DART_PREC.Bitwise_AND),
 
         bitwise_operator: $ => $._bitwise_operator,            
         _bitwise_operator: $ => choice(
@@ -2229,7 +2229,7 @@ module.exports = grammar({
 
         /*** 17.30: Shift expressions ***/
 
-        shift_expression: $ => binaryRunLeft($.real_expression, $.shift_operator, $.super, DART_PREC.Shift),
+        shift_expression: $ => binaryRunLeft($._real_expression, $.shift_operator, $.super, DART_PREC.Shift),
 
         shift_operator: $ => $._shift_operator,
         _shift_operator: $ => choice(
@@ -2239,7 +2239,7 @@ module.exports = grammar({
         ),
 
         /*** 17.30: Additive expressions ***/
-        additive_expression: $ => binaryRunLeft($.real_expression, $.additive_operator, $.super, DART_PREC.Additive),        
+        additive_expression: $ => binaryRunLeft($._real_expression, $.additive_operator, $.super, DART_PREC.Additive),        
 
 
         additive_operator: $ => $._additive_operator,
@@ -2253,7 +2253,7 @@ module.exports = grammar({
 
         /*** 17.32: Multiplicative expressions ***/
 
-        multiplicative_expression: $ => binaryRunLeft($.real_expression, $.multiplicative_operator, $.super, DART_PREC.Multiplicative),
+        multiplicative_expression: $ => binaryRunLeft($._real_expression, $.multiplicative_operator, $.super, DART_PREC.Multiplicative),
 
         multiplicative_operator: $ => $._multiplicative_operator,
         _multiplicative_operator: $ => choice(
@@ -2268,7 +2268,7 @@ module.exports = grammar({
         // We split unaries into prefix and postfix.
 
         prefix_expression: $ => prec(DART_PREC.UNARY_PREFIX, choice(
-            seq($.prefix_operator, choice($.prefix_expression, $.postfix_expression)),
+            seq($.prefix_operator, choice($.prefix_expression, $._postfix_expression)),
             $.await_expression,
             seq(
                 choice($.minus_operator, $.tilde_operator),
@@ -2291,7 +2291,7 @@ module.exports = grammar({
 
         await_expression: $ => prec.right(DART_PREC.UNARY_PREFIX, seq(
             'await',
-            $.real_expression,
+            $._real_expression,
         )),
 
 
@@ -2313,7 +2313,7 @@ module.exports = grammar({
         )),
         */
 
-        postfix_expression: $ => prec.right(
+        _postfix_expression: $ => prec.right(
             DART_PREC.UNARY_POSTFIX,
             choice(
                 
@@ -2364,7 +2364,7 @@ module.exports = grammar({
 
         call_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX+1,
             seq(
-                // field("function", $.postfix_expression),
+                // field("function", $._postfix_expression),
                 field("function", choice($.call_expression, $.primary_selector, $._primary, $.identifier)),
                 field("arguments", $.argument_part)
             )
@@ -3204,7 +3204,7 @@ module.exports = grammar({
         _logical_and_pattern: $ => seq($._relational_pattern, repeat(seq($.logical_and_operator, $._relational_pattern))),
         _relational_pattern: $ =>
         prec(DART_PREC.Relational, choice(
-                seq(choice($.relational_operator, $.equality_operator), $.real_expression),
+                seq(choice($.relational_operator, $.equality_operator), $._real_expression),
                 $._unary_pattern,
             )
         ),
