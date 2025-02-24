@@ -1,6 +1,1 @@
-int main() {
-
-    for (final item in this) {
-        print();
-    }
-}
+int x = a<b>(0)*12;

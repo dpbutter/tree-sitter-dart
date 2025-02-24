@@ -5330,6 +5330,136 @@
     "type": "for_loop_parts",
     "named": true,
     "fields": {
+      "collection": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "assignment_expression",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "bitwise_and_expression",
+            "named": true
+          },
+          {
+            "type": "bitwise_or_expression",
+            "named": true
+          },
+          {
+            "type": "bitwise_xor_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "cascade",
+            "named": true
+          },
+          {
+            "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
+            "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "equality_expression",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "if_null_expression",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "logical_and_expression",
+            "named": true
+          },
+          {
+            "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "postfix_expression",
+            "named": true
+          },
+          {
+            "type": "prefix_expression",
+            "named": true
+          },
+          {
+            "type": "relational_expression",
+            "named": true
+          },
+          {
+            "type": "shift_expression",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          },
+          {
+            "type": "throw_expression",
+            "named": true
+          },
+          {
+            "type": "type_cast_expression",
+            "named": true
+          },
+          {
+            "type": "type_test_expression",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": false,

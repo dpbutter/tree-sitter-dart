@@ -97,6 +97,7 @@ module.exports = grammar({
 
         $._assignable_expression,
         $._initialized_variable_declaration,
+
     ],
 
     conflicts: $ => [
@@ -191,7 +192,6 @@ module.exports = grammar({
         [$._type_name],
         // [$.assignment_expression, $._expression],
         // [$._primary, $._type_name, $.assignable_expression],
-        [$._primary, $._type_name],
         [$._type_name, $.function_signature],
         // [$.relational_operator, $._shift_operator],
         [$.declaration, $._external],
@@ -238,8 +238,12 @@ module.exports = grammar({
         [$._type_name, $._type_not_void_not_function],
 
         // Added to make cascades work
-        [$._element, $.index_selector]
+        [$._element, $.index_selector],
 
+
+        [$.relational_expression, $._primary],
+    
+        [$._lt_builtin, $._template_begin],
 
     ],
 
@@ -1641,7 +1645,7 @@ module.exports = grammar({
         ***************************************************************************************************
         ***************************************************************************************************/
 
-        type_parameters: $ => seq('<', commaSep1($.type_parameter), alias(token(prec(1, '>')), '>') ),
+        type_parameters: $ => seq($._template_begin, commaSep1($.type_parameter), alias(token(prec(1, '>')), '>') ),
 
         // FIXME: Below doesn't seem to match spec??
         type_parameter: $ => seq(
@@ -2203,11 +2207,15 @@ module.exports = grammar({
         //     )
         // ),
 
+        
+        // Solve the relational/template conflict by assigning (conflicted) roles to '<'
+        _lt_builtin: $ => '<',
+        _template_begin: $ => '<',
 
         relational_operator: $ => choice(
             '<=',
             '>=',
-            '<',
+            $._lt_builtin,
             '>'
         ),
 
@@ -3064,7 +3072,7 @@ module.exports = grammar({
         type_arguments: $ => prec(
             DART_PREC.TYPE_ARGUMENTS,
             seq(
-                '<',
+                $._template_begin,
                 commaSep1($._type),
                 // '>',
                 alias(token(prec(1, '>')), '>')
