@@ -2058,7 +2058,7 @@
         }
       ]
     },
-    "initialized_variable_declaration": {
+    "_initialized_variable_declaration": {
       "type": "SEQ",
       "members": [
         {
@@ -2079,23 +2079,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "initialized_identifier"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "SYMBOL",
-                "name": "initialized_identifier"
-              }
-            ]
-          }
+          "name": "initialized_identifier_list"
         }
       ]
     },
@@ -7404,7 +7388,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "initialized_variable_declaration"
+          "name": "_initialized_variable_declaration"
         },
         {
           "type": "SYMBOL",
@@ -11398,7 +11382,8 @@
     "_class_member_definition",
     "_var_or_type",
     "_identifier_or_new",
-    "_assignable_expression"
+    "_assignable_expression",
+    "_initialized_variable_declaration"
   ],
   "supertypes": [
     "_declaration",

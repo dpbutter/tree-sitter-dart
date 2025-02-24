@@ -96,6 +96,7 @@ module.exports = grammar({
         $._identifier_or_new,
 
         $._assignable_expression,
+        $._initialized_variable_declaration,
     ],
 
     conflicts: $ => [
@@ -734,12 +735,11 @@ module.exports = grammar({
             repeat(seq(',', $.initialized_identifier))
         ),
         */
-        initialized_variable_declaration: $ => seq(
+        _initialized_variable_declaration: $ => seq(
             // optional($._metadata),
             optional($._covariant),
             $._final_const_var_or_type,
-            $.initialized_identifier,
-            repeat(seq(',', $.initialized_identifier))
+            $.initialized_identifier_list
         ),
 
         /*
@@ -2576,7 +2576,7 @@ module.exports = grammar({
         */
         local_variable_declaration: $ => seq(
             optional($._metadata),
-            $.initialized_variable_declaration,
+            $._initialized_variable_declaration,
             $._semicolon
         ),
 

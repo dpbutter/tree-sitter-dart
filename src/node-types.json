@@ -7240,57 +7240,6 @@
     }
   },
   {
-    "type": "initialized_variable_declaration",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "const_builtin",
-          "named": true
-        },
-        {
-          "type": "final_builtin",
-          "named": true
-        },
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "inferred_type",
-          "named": true
-        },
-        {
-          "type": "initialized_identifier",
-          "named": true
-        },
-        {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        },
-        {
-          "type": "void_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "initializer_expression",
     "named": true,
     "fields": {},
@@ -7789,7 +7738,43 @@
           "named": true
         },
         {
-          "type": "initialized_variable_declaration",
+          "type": "const_builtin",
+          "named": true
+        },
+        {
+          "type": "final_builtin",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "inferred_type",
+          "named": true
+        },
+        {
+          "type": "initialized_identifier_list",
+          "named": true
+        },
+        {
+          "type": "nullable_type",
+          "named": true
+        },
+        {
+          "type": "record_type",
+          "named": true
+        },
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        },
+        {
+          "type": "void_type",
           "named": true
         }
       ]
