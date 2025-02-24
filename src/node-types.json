@@ -217,10 +217,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "real_expression",
           "named": true
         },
@@ -318,10 +314,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -476,10 +468,6 @@
         "types": [
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "cascade",
             "named": true
           },
           {
@@ -818,20 +806,43 @@
   {
     "type": "cascade",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "cascade",
-          "named": true
-        },
-        {
-          "type": "cascade_section",
-          "named": true
-        }
-      ]
+    "fields": {
+      "operation": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "assignment_expression",
+            "named": true
+          },
+          {
+            "type": "real_expression",
+            "named": true
+          },
+          {
+            "type": "throw_expression",
+            "named": true
+          }
+        ]
+      },
+      "receiver": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "assignment_expression",
+            "named": true
+          },
+          {
+            "type": "real_expression",
+            "named": true
+          },
+          {
+            "type": "throw_expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1773,10 +1784,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "real_expression",
           "named": true
         },
@@ -2042,10 +2049,6 @@
             "named": true
           },
           {
-            "type": "cascade",
-            "named": true
-          },
-          {
             "type": "for_element",
             "named": true
           },
@@ -2108,10 +2111,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -2309,10 +2308,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "real_expression",
           "named": true
         },
@@ -2390,10 +2385,6 @@
         },
         {
           "type": "block",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -2684,10 +2675,6 @@
             "named": true
           },
           {
-            "type": "cascade",
-            "named": true
-          },
-          {
             "type": "for_element",
             "named": true
           },
@@ -2719,10 +2706,6 @@
         "types": [
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "cascade",
             "named": true
           },
           {
@@ -2758,10 +2741,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -2821,10 +2800,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -2897,10 +2872,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "real_expression",
           "named": true
         },
@@ -2936,10 +2907,6 @@
         "types": [
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "cascade",
             "named": true
           },
           {
@@ -3023,122 +2990,21 @@
   {
     "type": "initializer_expression",
     "named": true,
-    "fields": {
-      "alternative": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "assignment_expression_without_cascade",
-            "named": true
-          },
-          {
-            "type": "real_expression",
-            "named": true
-          },
-          {
-            "type": "throw_expression_without_cascade",
-            "named": true
-          }
-        ]
-      },
-      "consequence": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "assignment_expression_without_cascade",
-            "named": true
-          },
-          {
-            "type": "real_expression",
-            "named": true
-          },
-          {
-            "type": "throw_expression_without_cascade",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
-        {
-          "type": "additive_operator",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
         {
           "type": "assignment_expression",
           "named": true
         },
         {
-          "type": "await_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
-          "named": true
-        },
-        {
-          "type": "equality_operator",
-          "named": true
-        },
-        {
-          "type": "increment_operator",
-          "named": true
-        },
-        {
-          "type": "logical_and_operator",
-          "named": true
-        },
-        {
-          "type": "logical_or_operator",
-          "named": true
-        },
-        {
-          "type": "minus_operator",
-          "named": true
-        },
-        {
-          "type": "multiplicative_operator",
-          "named": true
-        },
-        {
-          "type": "prefix_operator",
-          "named": true
-        },
-        {
-          "type": "relational_operator",
-          "named": true
-        },
-        {
-          "type": "shift_operator",
-          "named": true
-        },
-        {
-          "type": "super",
+          "type": "real_expression",
           "named": true
         },
         {
           "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "tilde_operator",
-          "named": true
-        },
-        {
-          "type": "type_cast",
-          "named": true
-        },
-        {
-          "type": "type_test",
           "named": true
         }
       ]
@@ -3343,10 +3209,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -3778,10 +3640,6 @@
             "named": true
           },
           {
-            "type": "cascade",
-            "named": true
-          },
-          {
             "type": "real_expression",
             "named": true
           },
@@ -3984,10 +3842,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "const_builtin",
           "named": true
         },
@@ -4101,10 +3955,6 @@
             "named": true
           },
           {
-            "type": "cascade",
-            "named": true
-          },
-          {
             "type": "real_expression",
             "named": true
           },
@@ -4120,10 +3970,6 @@
         "types": [
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "cascade",
             "named": true
           },
           {
@@ -4167,10 +4013,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -4623,10 +4465,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "label",
           "named": true
         },
@@ -4651,10 +4489,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -4995,10 +4829,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "real_expression",
           "named": true
         },
@@ -5078,10 +4908,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -5241,10 +5067,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "real_expression",
           "named": true
         },
@@ -5275,10 +5097,6 @@
         "types": [
           {
             "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "cascade",
             "named": true
           },
           {
@@ -5415,10 +5233,6 @@
         },
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -5561,10 +5375,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "identifier_dollar_escaped",
           "named": true
         },
@@ -5594,10 +5404,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -5812,41 +5618,6 @@
     }
   },
   {
-    "type": "type_cast",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "as_operator",
-          "named": true
-        },
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "type_parameter",
     "named": true,
     "fields": {},
@@ -5883,41 +5654,6 @@
       "types": [
         {
           "type": "type_parameter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "type_test",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_type",
-          "named": true
-        },
-        {
-          "type": "is_operator",
-          "named": true
-        },
-        {
-          "type": "nullable_type",
-          "named": true
-        },
-        {
-          "type": "record_type",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
           "named": true
         }
       ]
@@ -6035,10 +5771,6 @@
           "named": true
         },
         {
-          "type": "cascade",
-          "named": true
-        },
-        {
           "type": "real_expression",
           "named": true
         },
@@ -6059,10 +5791,6 @@
       "types": [
         {
           "type": "assignment_expression",
-          "named": true
-        },
-        {
-          "type": "cascade",
           "named": true
         },
         {
@@ -6254,6 +5982,10 @@
   },
   {
     "type": "?.",
+    "named": false
+  },
+  {
+    "type": "?..",
     "named": false
   },
   {

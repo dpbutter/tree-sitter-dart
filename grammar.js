@@ -96,7 +96,6 @@ module.exports = grammar({
 
         // Added inline objects
         $._var_or_type,
-        // $.equality_operator,
         $._identifier_or_new,
     ],
 
@@ -110,7 +109,7 @@ module.exports = grammar({
         [$._primary, $.constructor_param],
         [$._normal_formal_parameters],
         [$._declared_identifier],
-        [$._equality_expression],
+        //[$._equality_expression],
         // [$.record_type_field, $._function_formal_parameter, $._var_or_type],
         [$.record_type_field, $._function_formal_parameter],
         
@@ -233,6 +232,9 @@ module.exports = grammar({
         [$._strict_formal_parameter_list, $.arguments],
 
         [$.factory_constructor_signature],
+
+        [$._primary, $._type_name, $._type_not_void_not_function],
+        [$._type_name, $._type_not_void_not_function],
     ],
 
     word: $ => $.identifier,
@@ -1030,6 +1032,19 @@ module.exports = grammar({
             $.method_definition,
         ),
 
+        class_body: $ => seq(
+            '{',
+            repeat(
+                $._class_member_definition
+                /*
+                seq(
+                    optional($._metadata),
+                    $._class_member_definition
+                )
+                */
+            ),
+            '}'
+        ),
 
         method_definition: $ => seq(
             optional($._metadata), // FIXME: Unsure if allowed
@@ -1443,8 +1458,10 @@ module.exports = grammar({
 
         initializer_expression: $=> choice(
             $.assignment_expression,
-            $._conditional_expression,
-            $.cascade,
+            // $._conditional_expression,
+            $.real_expression,
+            // FIXME: Add cascade
+            // $.cascade,
             $.throw_expression
         ),
 
@@ -1664,7 +1681,7 @@ module.exports = grammar({
             )
         )),
 
-        
+
 
 
         /**************************************************************************************************
@@ -1678,7 +1695,8 @@ module.exports = grammar({
             $.assignment_expression,
             // $._conditional_expression,
             $.real_expression,
-            $.cascade,
+            // FIXME: Add cascade
+            // $.cascade,
             $.throw_expression,
         ),
 
@@ -1689,6 +1707,183 @@ module.exports = grammar({
             $.throw_expression_without_cascade
         ),
         _expression_list: $=> commaSep1($._expression),
+
+
+        // Exactly matches Dart specification
+        _primary: $ => choice(
+            $.this,
+            seq(
+                $.super,
+                $._unconditional_assignable_selector
+            ),
+            seq(
+                $.super,
+                $.argument_part
+            ),
+            $.function_expression,
+            $._literal,
+            $.identifier,
+            $.new_expression,
+            $.const_object_expression,
+            $.constructor_tearoff,
+            $.parenthesized_expression,
+
+            // $.class_literal,
+            // $.switch_expression,
+            // $.object_creation_expression,
+            // $.field_access,
+            // $.array_access,
+            // $.method_invocation,
+            // $.method_reference,
+        ),
+
+        /*** 17.10: Throw ***/
+        throw_expression: $ => prec.right(DART_PREC.UNARY_PREFIX, seq(
+            'throw',
+            $._expression
+        )),
+
+        throw_expression_without_cascade: $ => seq(
+            'throw',
+            $._expression_without_cascade
+        ),
+
+
+        /*** 17.11: Function Expressions ***/
+
+        function_expression: $ => seq(
+            field('parameters', $._formal_parameter_part),
+            field(
+                'body',
+                $.function_expression_body
+            )
+        ),
+
+        function_expression_body: $ => choice(
+            seq(
+                optional('async'),
+                '=>',
+                $._expression
+            ),
+            seq(
+                optional(choice(
+                    'async',
+                    'async*',
+                    'sync*',
+                )),
+                $.block
+            )
+        ),
+
+
+        /*** 17.13: Instance Creation ***/
+        
+        // FIXME: Type below
+        new_expression: $ => seq(
+            $._new_builtin,
+            $._type_not_void,
+            optional(
+                $._dot_identifier
+            ),
+            $.arguments
+        ),
+
+        // FIXME: Type below. const seems silly?
+        const_object_expression: $ => seq(
+            $.const_builtin,
+            $._type_not_void,
+            optional(
+                $._dot_identifier
+            ),
+            $.arguments
+        ),
+
+
+        /*** 17.15: Function Invocation ***/
+
+
+        arguments: $ => seq('(', optional($._argument_list), ')'),
+
+        _argument_list: $ => prec.right(commaSep1TrailingComma($._any_argument)),
+
+        _any_argument: $ => choice($.argument, $.named_argument),
+
+        argument: $ => $._expression,
+
+        named_argument: $ => seq(field("name", $.label), field("value", $._expression)),
+
+        // FIXME: Above seems to be laxer than language spec, which is fine?
+
+
+
+        /*** 17.12.2 Cascades ***/
+        cascade: $ =>  prec.left(
+            DART_PREC.Cascade,
+            seq(
+                field("receiver", $._expression),  // Base object
+                repeat1(seq(
+                    choice('..', '?..'),  // Regular and null-aware cascade
+                    field("operation", choice(
+                        $._expression,
+                    ))
+                ))
+        )),
+
+        OLDcascade: $ => prec.left(
+            DART_PREC.Cascade,
+            choice(
+                seq(
+                    $.cascade,
+                    '..',
+                    $.cascade_section
+                ),
+                seq(
+                    // $.conditional_expression,
+                    $.real_expression,
+                    choice('..', '?..'),
+                    $.cascade_section
+                )
+            )
+        ),
+
+        NEWcascade_section: $ => prec(
+            DART_PREC.Cascade,
+            $.real_expression
+        ),
+
+        cascade_section: $ => prec.left(
+            DART_PREC.Cascade,
+            seq(
+                $.cascade_selector,
+                $.cascade_section_tail,
+            )
+        ),
+
+        cascade_selector: $ => choice(
+            $.index_selector,
+            $.identifier
+        ),
+ 
+        // FIXME: This doesn't quite work because of the new call_expression.
+
+        cascade_section_tail: $ => prec.left(
+            DART_PREC.Cascade,
+            choice(
+                $._cascade_assignment_section,
+                repeat1($.selector),
+                seq(
+                    repeat($.selector),
+                    $._assignable_selector,
+                    $._cascade_assignment_section
+                )
+            )
+        ),
+
+        _cascade_assignment_section: $ => seq(
+            $._assignment_operator,
+            $._expression_without_cascade
+        ),
+
 
 
 
@@ -1734,22 +1929,11 @@ module.exports = grammar({
         //     )
         // ),
 
-        throw_expression: $ => prec.right(DART_PREC.UNARY_PREFIX, seq(
-            'throw',
-            $._expression
-        )),
-
-        throw_expression_without_cascade: $ => seq(
-            'throw',
-            $._expression_without_cascade
-        ),
-
-        rethrow_expression: $ => $.rethrow_builtin,
 
         /**************************************************************************************************
          ***********************Assignment Expressions*****************************************************
          ***************************************************************************************************
-         ****These are the assignment expressions from section 16.34 (Page 159) of the dart DRAFT**********
+         ****These are the assignment expressions from section 17.23 (Page 170) of the dart DRAFT**********
          * specification. (Very different from the formal spec in this instance)****************************
          ***************************************************************************************************
          ***************************************************************************************************/
@@ -1823,21 +2007,7 @@ module.exports = grammar({
         //     field('right', $._type)
         // )),
 
-        lambda_expression: $ => seq(
-            field('parameters', $.function_signature),
-            field(
-                'body',
-                $.function_body
-            )
-        ),
 
-        function_expression: $ => seq(
-            field('parameters', $._formal_parameter_part),
-            field(
-                'body',
-                $.function_expression_body
-            )
-        ),
 
         inferred_parameters: $ => seq(
             '(',
@@ -1852,11 +2022,11 @@ module.exports = grammar({
                 // $.postfix_expression,
         )),
 
+
         real_expression: $ => choice(
             
             $.postfix_expression,
-
-            
+    
             $.conditional_expression,
             $.if_null_expression,
             $.logical_or_expression,
@@ -1865,7 +2035,6 @@ module.exports = grammar({
             
 
             $.relational_expression,
-            // $.ambiguous_relational_or_call,
 
             
             $.bitwise_or_expression,
@@ -1876,13 +2045,14 @@ module.exports = grammar({
             $.multiplicative_expression,
             $.prefix_expression,
             
-
             $._primary,
             
             // $.type_cast_expression,
             // $.type_test_expression,
         ),
 
+
+        /*** 17.24: Conditional ***/
         conditional_expression: $ => prec.right(
             DART_PREC.Conditional,
             seq(
@@ -1895,10 +2065,15 @@ module.exports = grammar({
                 )
             )
         ),
+        
+        /*** 17.25: If-null expressions ***/
+
         if_null_expression: $ => prec.left( //left
             DART_PREC.If_Null,
             sep2($.real_expression,"??")
         ),
+
+        /*** 17.26: Logical boolean expressions ***/
         logical_or_expression: $ => prec.left( //left
             DART_PREC.Logical_OR,
             sep2($.real_expression, $.logical_or_operator)
@@ -1907,6 +2082,9 @@ module.exports = grammar({
             DART_PREC.Logical_AND,
             sep2($.real_expression, $.logical_and_operator)
         ),
+
+
+        /*** 17.27: Equality expressions ***/
         equality_expression: $ => prec.left( //neither
             DART_PREC.Equality,
             choice(
@@ -1918,6 +2096,16 @@ module.exports = grammar({
                 )
             )
         ),
+        equality_operator: $ => token(
+            choice(
+                '==',
+                '!='
+            )
+        ),
+
+
+        /*** 17.28: Relational expressions ***/
+
         relational_expression: $ => prec.left(DART_PREC.Relational,
             choice(
                 seq(
@@ -1940,128 +2128,7 @@ module.exports = grammar({
                 ),
             )
         ),
-        bitwise_or_expression: $ => binaryRunLeft($.real_expression, '|', $.super, DART_PREC.Bitwise_Or),
-        bitwise_xor_expression: $ => binaryRunLeft($.real_expression, '^', $.super, DART_PREC.Bitwise_XOR),
-        bitwise_and_expression: $ => binaryRunLeft($.real_expression, '&', $.super, DART_PREC.Bitwise_AND),
-        
-        shift_expression: $ => binaryRunLeft($.real_expression, $.shift_operator, $.super, DART_PREC.Shift),
-        
-        additive_expression: $ => binaryRunLeft($.real_expression, $.additive_operator, $.super, DART_PREC.Additive),        
 
-        multiplicative_expression: $ => binaryRunLeft($.real_expression, $.multiplicative_operator, $.super, DART_PREC.Multiplicative),
-
-        prefix_expression: $ => prec(DART_PREC.UNARY_PREFIX, choice(
-            seq($.prefix_operator, choice($.prefix_expression, $.postfix_expression)),
-            $.await_expression,
-            seq(
-                choice($.minus_operator, $.tilde_operator),
-                $.super
-            ),
-            seq($.increment_operator, $.assignable_expression)
-       )),
-
-
-
-
-
-        /**** Language spec deep definitions *******/
-
-        _conditional_expression: $ => prec.left( //left
-            DART_PREC.Conditional,
-            seq(
-                $._if_null_expression,
-                optional(seq(
-                    '?',
-                    field('consequence', $._expression_without_cascade),
-                    ':',
-                    field('alternative', $._expression_without_cascade)
-                ))
-            )
-        ),
-
-        _if_null_expression: $ => prec.left( //left
-            DART_PREC.If_Null,
-            sep1($._logical_or_expression,"??")
-        ),
-
-        _logical_or_expression: $ => prec.left( //left
-            DART_PREC.Logical_OR,
-            sep1($._logical_and_expression, $.logical_or_operator)
-        ),
-
-        _logical_and_expression: $ => prec.left( //left
-            DART_PREC.Logical_AND,
-            sep1($._equality_expression, $.logical_and_operator)
-        ),
-
-        /*
-        equality_expression: $ => prec( //neither
-            DART_PREC.Equality,
-            choice(
-                seq(
-                    // $._relational_expression,
-                    // $.real_expression,
-                    // optional(
-                    //
-                    // )
-
-                    $.equality_operator,
-                    $.real_expression
-                    // $._relational_expression
-
-                ),
-                seq(
-                    $.super,
-                    $.equality_operator,
-                    // $._relational_expression
-                    $.real_expression
-                )
-            )
-        ),
-        */
-        _equality_expression: $ => prec( //neither
-            DART_PREC.Equality,
-            choice(
-                sep1($._relational_expression,$.equality_operator),
-                seq(
-                    $.super,
-                    $.equality_operator,
-                    $._relational_expression
-                )
-            )
-        ),
-
-        equality_operator: $ => token(
-            choice(
-                '==',
-                '!='
-            )
-        ),
-        /*
-        type_cast_expression: $ => prec.left(
-            DART_PREC.RelationalTypeCast,
-            seq(
-                // $._below_relational_type_cast_expression,
-                $.real_expression,
-                $.type_cast,
-            )
-        ),
-        type_test_expression: $ => prec(
-            DART_PREC.RelationalTypeTest,
-            seq(
-                // $._below_relational_type_cast_expression,
-                $.real_expression,
-                $.type_test,
-            )
-        ),
-        */
-
-        // _raw_type_cast: $ => prec.right(
-        //     seq(
-        //         $._below_relational_type_cast_expression,
-        //         $.type_cast,
-        //     )
-        // ),
         /*
         relational_expression: $ => prec( // neither
             DART_PREC.Relational,
@@ -2106,33 +2173,37 @@ module.exports = grammar({
                 ),
             )
         ),
+        */
 
-        relational_operator: $ => choice(
-            '<',
-            '>',
-            '<=',
-            '>='
+        // FIXME: Fix type cast expressions
+
+        /*
+        type_cast_expression: $ => prec.left(
+            DART_PREC.RelationalTypeCast,
+            seq(
+                // $._below_relational_type_cast_expression,
+                $.real_expression,
+                $.type_cast,
+            )
+        ),
+        type_test_expression: $ => prec(
+            DART_PREC.RelationalTypeTest,
+            seq(
+                // $._below_relational_type_cast_expression,
+                $.real_expression,
+                $.type_test,
+            )
         ),
         */
 
-        _relational_expression: $ => prec( // neither
-            DART_PREC.Relational,
-            choice(
-                seq(
-                    $._bitwise_or_expression,
-                    optional(choice(
-                        $.type_test,
-                        $.type_cast,
-                        seq($.relational_operator,$._bitwise_or_expression)
-                    ))
-                ),
-                seq(
-                    $.super,
-                    $.relational_operator,
-                    $._bitwise_or_expression
-                ),
-            )
-        ),
+
+        // _raw_type_cast: $ => prec.right(
+        //     seq(
+        //         $._below_relational_type_cast_expression,
+        //         $.type_cast,
+        //     )
+        // ),
+
 
         relational_operator: $ => choice(
             '<=',
@@ -2142,22 +2213,24 @@ module.exports = grammar({
         ),
 
 
-        //BITWISE EXPRESSIONS
-        // bitwise_or_expression: $ => binaryRunLeft($.real_expression, '|', $.super, DART_PREC.Bitwise_Or),
-        // bitwise_xor_expression: $ => binaryRunLeft($.real_expression, '^', $.super, DART_PREC.Bitwise_XOR),
-        // bitwise_and_expression: $ => binaryRunLeft($.real_expression, '&', $.super, DART_PREC.Bitwise_AND),
-        _bitwise_or_expression: $ => binaryRunLeft($._bitwise_xor_expression, '|', $.super, DART_PREC.Bitwise_Or),
-        _bitwise_xor_expression: $ => binaryRunLeft($._bitwise_and_expression, '^', $.super, DART_PREC.Bitwise_XOR),
-        _bitwise_and_expression: $ => binaryRunLeft($._shift_expression, '&', $.super, DART_PREC.Bitwise_AND),
+        /*** 17.29: Bitwise expressions ***/
 
-        bitwise_operator: $ => $._bitwise_operator,
+        bitwise_or_expression: $ => binaryRunLeft($.real_expression, '|', $.super, DART_PREC.Bitwise_Or),
+        bitwise_xor_expression: $ => binaryRunLeft($.real_expression, '^', $.super, DART_PREC.Bitwise_XOR),
+        bitwise_and_expression: $ => binaryRunLeft($.real_expression, '&', $.super, DART_PREC.Bitwise_AND),
+
+        bitwise_operator: $ => $._bitwise_operator,            
         _bitwise_operator: $ => choice(
             '&',
             '^',
             '|'
         ),
+        
 
-        _shift_expression: $ => binaryRunLeft($._additive_expression, $.shift_operator, $.super, DART_PREC.Shift),
+        /*** 17.30: Shift expressions ***/
+
+        shift_expression: $ => binaryRunLeft($.real_expression, $.shift_operator, $.super, DART_PREC.Shift),
+
         shift_operator: $ => $._shift_operator,
         _shift_operator: $ => choice(
             '<<',
@@ -2165,7 +2238,10 @@ module.exports = grammar({
             '>>>'
         ),
 
-        _additive_expression: $ => binaryRunLeft($._multiplicative_expression, $.additive_operator, $.super, DART_PREC.Additive),
+        /*** 17.30: Additive expressions ***/
+        additive_expression: $ => binaryRunLeft($.real_expression, $.additive_operator, $.super, DART_PREC.Additive),        
+
+
         additive_operator: $ => $._additive_operator,
         _additive_operator: $ => token(
             choice(
@@ -2174,7 +2250,11 @@ module.exports = grammar({
             )
         ),
 
-        _multiplicative_expression: $ => binaryRunLeft($._unary_expression, $.multiplicative_operator, $.super, DART_PREC.Multiplicative),
+
+        /*** 17.32: Multiplicative expressions ***/
+
+        multiplicative_expression: $ => binaryRunLeft($.real_expression, $.multiplicative_operator, $.super, DART_PREC.Multiplicative),
+
         multiplicative_operator: $ => $._multiplicative_operator,
         _multiplicative_operator: $ => choice(
             '*',
@@ -2182,50 +2262,20 @@ module.exports = grammar({
             '%',
             '~/'
         ),
+ 
+        /*** 17.33: Unary expressions ***/
+        
+        // We split unaries into prefix and postfix.
 
-
-        /*
-        _unary_expression: $ => prec(
-            DART_PREC.UNARY_PREFIX,
-            choice(
-                $.postfix_expression,
-                $.unary_expression,
-            )
-        ),
-
-        unary_expression: $ => prec( //neither
-            DART_PREC.UNARY_PREFIX,
-            choice(
-
-                seq($.prefix_operator, $._unary_expression),
-                $.await_expression,
-                // prec(DART_PREC.UNARY_POSTFIX, $.postfix_expression),
-                seq(
-                    choice(
-                        $.minus_operator,
-                        $.tilde_operator
-                    ),
-                    $.super
-                ),
-                seq(
-                    $.increment_operator,
-                    $.assignable_expression
-                )
-            )
-        ),
-        */
-
-        _unary_expression: $ => prec(DART_PREC.UNARY_PREFIX,
-            choice(
-                seq($.prefix_operator, $._unary_expression),
-                $.await_expression,
-                seq(
-                    choice($.minus_operator, $.tilde_operator),
-                    $.super
-                ),
-                seq($.increment_operator, $.assignable_expression)
-            )
-        ),
+        prefix_expression: $ => prec(DART_PREC.UNARY_PREFIX, choice(
+            seq($.prefix_operator, choice($.prefix_expression, $.postfix_expression)),
+            $.await_expression,
+            seq(
+                choice($.minus_operator, $.tilde_operator),
+                $.super
+            ),
+            seq($.increment_operator, $.assignable_expression)
+        )),
 
         prefix_operator: $ => choice(
             $.minus_operator,
@@ -2233,20 +2283,20 @@ module.exports = grammar({
             $.tilde_operator
         ),
 
-
         minus_operator: $ => '-',
         negation_operator: $ => $._exclamation_operator,
         tilde_operator: $ => '~',
 
+        /*** 17.34: Await expressions ***/
 
         await_expression: $ => prec.right(DART_PREC.UNARY_PREFIX, seq(
             'await',
-            // $._unary_expression
             $.real_expression,
         )),
 
 
-/*** 17.35 Postfix Expressions ***/
+
+        /*** 17.35 Postfix Expressions ***/
 
         /*
         _postfix_expression: $ => prec.right(choice(
@@ -2345,7 +2395,10 @@ module.exports = grammar({
         )),
 
 
-/*** 17.36 Assignable expressions ***/
+
+
+        /*** 17.36 Assignable expressions ***/
+
         // FIXME: check
         assignable_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX, choice(
             seq($._primary, $._assignable_selector_part),
@@ -2439,126 +2492,523 @@ module.exports = grammar({
         ),
 
 
-
-
-/*** Rest ***/
-
-
-
-        _exclamation_operator: $ => '!',
-
-        
-
-        new_expression: $ => seq(
-            $._new_builtin,
-            $._type_not_void,
-            optional(
-                $._dot_identifier
-            ),
-            $.arguments
+/*** 18.2: Expression statements ***/
+        expression_statement: $ => seq(
+            // FIXME: expression_statement
+            // $._expression,
+            optional($._expression),
+            $._semicolon
         ),
 
-        _dot_identifier: $ => prec.dynamic(
-            DART_PREC.DOT_IDENTIFIER,
+
+/*** 18.3: Local variable declaration ***/
+        /*
+        local_variable_declaration: $ => choice(
             seq(
-                '.',
-                $.identifier
+                optional($._metadata),
+                $.initialized_variable_definition,
+                $._semicolon
+            ),
+            seq(
+                optional($._metadata),
+                $.pattern_variable_declaration,
+                $._semicolon
             )
         ),
-        const_object_expression: $ => seq(
-            $.const_builtin,
-            $._type_not_void,
-            optional(
-                $._dot_identifier
-            ),
-            $.arguments
-        ),
-
-        // Exactly matches Dart specification
-        _primary: $ => choice(
-            $.this,
-            seq(
-                $.super,
-                $._unconditional_assignable_selector
-            ),
-            seq(
-                $.super,
-                $.argument_part
-            ),
-            $.function_expression,
-            $._literal,
-            $.identifier,
-            $.new_expression,
-            $.const_object_expression,
-            $.constructor_tearoff,
-            $.parenthesized_expression,
-
-            // $.class_literal,
-            // $.switch_expression,
-            // $.object_creation_expression,
-            // $.field_access,
-            // $.array_access,
-            // $.method_invocation,
-            // $.method_reference,
+        */
+        local_variable_declaration: $ => seq(
+            optional($._metadata),
+            $.initialized_variable_declaration,
+            $._semicolon
         ),
 
 
-        parenthesized_expression: $ => seq('(', $._expression, ')'),
 
-        _compound_access: $ => choice('.', '?.'),
+/*** 18.4: Local function declaration ***/
 
 
-        constructor_tearoff: $ => prec.right(seq(
-          $._type_name, optional($.type_arguments), '.', $._new_builtin,
+        // FIXME: Is this valid?
+        local_function_declaration: $ => seq(
+            optional($._metadata),
+            $.lambda_expression
+        ),
+
+        lambda_expression: $ => seq(
+            field('parameters', $.function_signature),
+            field(
+                'body',
+                $.function_body
+            )
+        ),
+
+
+/*** 18.5: If  ***/
+        
+        if_element: $ => prec.right(seq(
+            'if',
+            // '(', $._expression, optional(seq('case', $._guarded_pattern)) , ')',
+            '(', $._expression, ')',
+            field('consequence', $._element),
+            optional(seq('else', field('alternative', $._element)))
         )),
 
-        arguments: $ => seq('(', optional($._argument_list), ')'),
+        if_statement: $ => prec.right(seq(
+            'if',
+            // '(', $._expression, optional(seq('case', $._guarded_pattern)) , ')',
+            '(', $._expression, ')',
+            // '(', $.relational_expression, ')',
+            field('consequence', $._statement),
+            optional(seq('else', field('alternative', $._statement)))
+        )),
 
-        _argument_list: $ => prec.right(commaSep1TrailingComma($._any_argument)),
 
-        _any_argument: $ => choice($.argument, $.named_argument),
+/*** 18.6: For  ***/
 
-        argument: $ => $._expression,
+        for_statement: $ => seq(
+            optional('await'),
+            'for',
+            '(',
+            $.for_loop_parts,
+            ')',
+            field('body', $._statement)
+        ),
 
-        named_argument: $ => seq(field("name", $.label), field("value", $._expression)),
+        // for_loop_parts: $ => seq('(', $._for_loop_parts, ')'),
 
-        cascade: $ => prec.left(DART_PREC.Cascade,
+        for_loop_parts: $ => choice(
             seq(
-                $.cascade,
-                '..',
-                $.cascade_section
+                $._for_initializer_statement,
+                optional($._expression),
+                $._semicolon,
+                optional($._expression_list)
+            ),
+            seq(
+                $._for_in_loop_prefix,
+                'in',
+                $._expression
             )
         ),
 
-        cascade_section: $ => prec.left(
-            DART_PREC.Cascade,
-            seq(
-                $.cascade_selector,
-                $.cascade_section_tail,
-            )
+        _for_initializer_statement: $ => choice(
+            $.local_variable_declaration,
+            seq(optional($._expression), $._semicolon)
         ),
 
-        cascade_selector: $ => choice(
-            $.index_selector,
+        _for_in_loop_prefix: $ => choice(
+            seq($._metadata,$._declared_identifier),
             $.identifier
         ),
- 
-        cascade_section_tail: $ => prec.left(DART_PREC.Cascade,choice(
-            $._cascade_assignment_section,
-            repeat1($.selector),
-            seq(
-                repeat($.selector),
-                $._assignable_selector,
-                $._cascade_assignment_section
-            )
-        )),
 
-        _cascade_assignment_section: $ => seq(
-            $._assignment_operator,
-            $._expression_without_cascade
+        // support map weirdness?
+        for_element: $ => seq(
+            optional('await'),
+            'for',
+            '(',
+            $.for_loop_parts,
+            ')',
+            field('body', $._element)
         ),
 
-        index_selector: $ => seq('[', $._expression, ']'),
+
+/*** 18.7: While  ***/
+
+        while_statement: $ => seq(
+            'while',
+            field('condition', $.parenthesized_expression),
+            field('body', $._statement)
+        ),
+
+/*** 18.8: Do  ***/
+
+        do_statement: $ => seq(
+            'do',
+            field('body', $._statement),
+            'while',
+            field('condition', $.parenthesized_expression),
+            $._semicolon
+        ),
+
+
+/*** 18.9: Switch  ***/
+
+        switch_statement: $ => seq(
+            'switch',
+            field('condition', $.parenthesized_expression),
+            field('body', $.switch_block)
+        ),
+
+        switch_block: $ => seq(
+            '{',
+                // 
+                repeat($.switch_case),
+                optional($.switch_statement_default),
+            '}'
+        ),
+
+        switch_case: $ => prec.left(choice(
+            seq(repeat($.label), $.case_builtin, $._expression, ':', repeat1($._statement)),
+        )),
+
+        switch_statement_default: $ => seq(
+            repeat($.label), 'default', ':', repeat($._statement),
+        ),
+
+
+        default_case: $ => choice(
+            seq(repeat($.label), 'default', ':', repeat1($._statement)),
+        ),
+
+        switch_label: $ => seq(
+            repeat($.label),
+            choice(
+                seq($.case_builtin, $._expression, ':'),
+                seq('default', ':')
+            )),
+
+
+
+        /*
+        switch_expression: $ => seq(
+            'switch',
+            field('condition', $.parenthesized_expression),
+            field('body',
+            seq('{',
+            commaSep1TrailingComma($.switch_expression_case),
+            '}'
+            ))
+        ),
+
+        switch_expression_case: $ => seq($._guarded_pattern, '=>', $._expression),
+
+        switch_statement_case: $ =>  seq(
+            repeat($.label), $.case_builtin, $._guarded_pattern, ':', repeat($._statement),
+        ),
+
+        _guarded_pattern: $ => seq(
+            $._pattern, optional(seq('when', $._expression))
+        ),
+
+        _pattern: $ => choice(
+            $._logical_or_pattern,
+        ),
+
+        */
+
+
+
+/*** 18.10: Rethrow  ***/
+
+        rethrow_expression: $ => $.rethrow_builtin,
+
+
+/*** 18.11: Try  ***/
+
+        try_statement: $ => seq(
+            $._try_head,
+            optional(choice(
+                $.finally_clause,
+                seq(repeat1($._on_part), optional($.finally_clause))
+            ))
+        ),
+        _on_part: $ => choice(
+            seq(
+                $.catch_clause,
+                $.block
+            ),
+            seq(
+                'on',
+                $._type_not_void,
+                optional($.catch_clause),
+                $.block
+            )
+        ),
+        _try_head: $ => seq(
+            'try',
+            field('body', $.block),
+        ),
+        catch_clause: $ => seq(
+            'catch',
+            $.catch_parameters,
+            // field('body', $.block)
+        ),
+
+        catch_parameters: $ => seq(
+            '(',
+            $.identifier,
+            optional(
+                seq(
+                    ',',
+                    $.identifier
+                ),
+            ),
+            ')',
+        ),
+
+        catch_type: $ => sep1($._type, '|'),
+
+        finally_clause: $ => seq('finally', $.block),
+
+
+
+/*** 18.12: Return  ***/
+
+        return_statement: $ => seq(
+            'return',
+            optional($._expression),
+            $._semicolon
+        ),
+
+
+/*** 18.13: Labels  ***/
+
+        label: $ => seq(
+            $.identifier, ':'
+        ),
+
+
+
+/*** 18.14: Break  ***/
+        break_statement: $ => seq($.break_builtin, optional($.identifier), $._semicolon),
+
+/*** 18.15: Continue  ***/
+        continue_statement: $ => seq('continue', optional($.identifier), $._semicolon),
+
+/*** 18.16: Yield  ***/
+        yield_statement: $ => seq('yield', $._expression, $._semicolon),
+
+/*** 18.17: Yield-each  ***/
+        yield_each_statement: $ => seq('yield', '*', $._expression, $._semicolon),
+
+
+/*** 18.18: Assert  ***/
+
+        assert_statement: $ => seq($.assertion, ';'),
+
+        assertion: $ => seq(
+            $.assert_builtin,
+            $.assertion_arguments,
+        ),
+
+        assertion_arguments: $ => seq(
+            '(',
+            commaSep1TrailingComma($._expression),
+            ')',
+        ),
+
+
+        /**************************************************************************************************
+        *********************************Libraries and Scripts*********************************************
+        ***************************************************************************************************
+        ****These are the expressions from section 19 of the specification*********************************
+        ***************************************************************************************************
+        ***************************************************************************************************/
+
+
+        script_tag: $ => seq('#!', /.+/, '\n'),
+
+        library_name: $ => seq(optional($._metadata), 'library', $.dotted_identifier_list, $._semicolon),
+
+        import_or_export: $ => prec(
+            DART_PREC.IMPORT_EXPORT,
+            choice(
+                $.library_import,
+                $.library_export
+            )
+        ),
+
+        library_import: $ => seq(
+            optional($._metadata),
+            $.import_specification
+        ),
+
+        library_export: $ => seq(
+            optional($._metadata),
+            $._export,
+            $.configurable_uri,
+            repeat($.combinator),
+            $._semicolon
+        ),
+
+        dotted_identifier_list: $ => sep1($.identifier, '.'),
+
+
+        import_specification: $ => choice(
+            seq(
+                $._import,
+                $.configurable_uri,
+                optional(
+                    seq(
+                        $._as,
+                        $.identifier
+                    )
+                ),
+                repeat($.combinator),
+                $._semicolon
+            ),
+            seq(
+                $._import,
+                $.uri,
+                $._deferred,
+                $._as,
+                $.identifier,
+                repeat($.combinator),
+                $._semicolon
+            )
+        ),
+
+
+        /*** 19.3 Namespace Combinators ***/
+
+        combinator: $ => choice(
+            seq('show', $._identifier_list),
+            seq('hide', $._identifier_list)
+        ),
+
+        _identifier_list: $ => commaSep1($.identifier),
+
+
+        /*** 19.5 Parts ***/
+
+        part_directive: $ => seq(
+            optional($._metadata),
+            'part',
+            $.uri,
+            $._semicolon
+        ),
+
+        part_of_directive: $ => seq(
+            optional($._metadata),
+            $.part_of_builtin,
+            choice($.dotted_identifier_list, $.uri),
+            $._semicolon
+        ),
+
+
+        /*** 19.7 URIs ***/
+
+
+        uri: $ => $.string_literal,
+
+        configurable_uri: $ => seq(
+            $.uri,
+            repeat($.configuration_uri)
+        ),
+
+        configuration_uri: $ => seq(
+            'if',
+            $.configuration_uri_condition,
+            $.uri
+        ),
+
+        configuration_uri_condition: $ => seq('(', $.uri_test, ')'),
+
+        uri_test: $ => seq(
+            $.dotted_identifier_list,
+            optional(
+                seq(
+                    '==',
+                    $.string_literal
+                )
+            )
+        ),
+
+
+
+
+        /**************************************************************************************************
+        *********************************Types ************************************************************
+        ***************************************************************************************************
+        ****These are the expressions from section 20 of the specification*********************************
+        ***************************************************************************************************
+        ***************************************************************************************************/
+
+        _type: $ => choice(
+            seq(
+                $.function_type,
+                optional($.nullable_type)
+            ),
+            $._type_not_function
+            // $._function_type_tails,
+            // seq(
+            //     $._type_not_function,
+            //     $._function_type_tails
+            // ),
+            // $._type_not_function
+            // $._unannotated_type,
+            // $.annotated_type
+        ),
+
+        _type_not_void: $ => choice(
+            seq(
+                $.function_type,
+                optional($.nullable_type)
+            ),
+            seq($.record_type, optional($.nullable_type)),
+            // $.function_type,
+            $._type_not_void_not_function
+            // alias($.identifier, $.type_identifier),
+            // // $.scoped_type_identifier,
+            // $.generic_type
+        ),
+
+
+        // FIXME: Note record type admitted below
+        _type_not_function: $ => choice(
+            $._type_not_void_not_function,
+            seq($.record_type, optional($.nullable_type)),
+            $.void_type
+        ),
+        
+        // includes nullable type hbelow
+        _type_not_void_not_function: $ => choice(
+            // FIXME: Swapped the below two (twice).
+            seq(
+                $._type_name,
+                optional($.type_arguments),
+                optional($.nullable_type)
+            ),
+            seq(
+                optional(seq(alias($.identifier, $.type_identifier), '.')),
+                $._function_builtin_identifier,
+                optional($.nullable_type)
+            ),
+        ),
+
+        // FIXME: Lowered precedence from 0 to -1. Back to 0.
+        _type_name: $ => seq(
+            alias(
+                $.identifier,
+                $.type_identifier
+            ),
+            optional(
+                $._type_dot_identifier
+            ),
+            // optional($.nullable_type),
+        ),
+
+        // _type_name: $ => prec.right( // changed from above?
+        //     seq(
+        //         alias(
+        //             $.identifier,
+        //             $.type_identifier
+        //         ),
+        //         optional(
+        //             $._type_dot_identifier
+        //         ),
+        //         optional($.nullable_type),
+        //     )
+        // ),
+
+        _type_dot_identifier: $ => prec.right(
+            DART_PREC.IMPORT_EXPORT,
+            seq(
+                '.',
+                alias(
+                    $.identifier,
+                    $.type_identifier
+                )
+            )
+        ),
 
 
         type_arguments: $ => prec(
@@ -2586,89 +3036,169 @@ module.exports = grammar({
             )
         ),
 
+        // == typeList
+        /*
+        interface_type_list: $ => seq(
+            $._type,
+            repeat(seq(',', $._type))
+        ),
+        */
+
+
+        function_type: $ => choice(
+            $._function_type_tails,
+            seq(
+                $._type_not_function,
+                $._function_type_tails
+            )
+        ),
+
+        /*
+        _function_type_tails: $ => repeat1($._function_type_tail),
+        */
+        
+        // FIXME: Might be wrong below
+        _function_type_tails: $ => 
+            prec.left(sep1($._function_type_tail, optional($.nullable_type))),
+
+        _function_type_tail: $ => seq(
+            $._function_builtin_identifier,
+            optional($.type_parameters),
+            optional($.nullable_type),
+            optional($.parameter_type_list),
+        ),
+
+        parameter_type_list: $ => seq(
+            '(',
+            optional(choice(
+                commaSep1TrailingComma($.normal_parameter_type),
+                seq(
+                    commaSep1($.normal_parameter_type),
+                    ',',
+                    $.optional_parameter_types,
+                ),
+                $.optional_parameter_types
+            ),),
+            ')'
+        ),
+
+        normal_parameter_type: $ => seq(
+            optional($._metadata),
+            choice(
+                $.typed_identifier,
+                $._type
+            )
+        ),
+
+        optional_parameter_types: $ => choice(
+            $.optional_positional_parameter_types,
+            $.named_parameter_types
+        ),
+
+        optional_positional_parameter_types: $ => seq(
+            '[',
+            commaSep1TrailingComma($.normal_parameter_type),
+            ']'
+        ),
+        named_parameter_types: $ => seq(
+            '{',
+            commaSep1TrailingComma($._named_parameter_type),
+            '}'
+        ),
+
+        _named_parameter_type: $ => seq(
+            optional($._metadata),
+            optional($._required),
+            $.typed_identifier
+        ),
+
+
+        typed_identifier: $ => seq(
+            $._type,
+            $.identifier
+        ),
+
+
+        /*** 20.3: Type aliases ***/
+
+        type_alias: $ => choice(
+            seq(
+                optional($._metadata),
+                $._typedef,
+                optional($._type),
+                $._type_name,
+                $._formal_parameter_part, ';'),
+            seq(
+                optional($._metadata),
+                $._typedef,
+                $._type_name,
+                optional($.type_parameters),
+                '=', $._type, ';'),
+        ),
+
+
+
+
+        /**************************************************************************************************
+        *********************************Types ************************************************************
+        ***************************************************************************************************
+        ****These are the expressions from section 20 of the specification*********************************
+        ***************************************************************************************************
+        ***************************************************************************************************/
+
+
+
+
+
+        /**************************************************************************************************
+        ********************************* Residuals *******************************************************
+        ***************************************************************************************************
+        ** These are expressions not defined in the spec directly. ****************************************
+        ***************************************************************************************************/
+
+        _exclamation_operator: $ => '!',
+
+        _dot_identifier: $ => prec.dynamic(
+            DART_PREC.DOT_IDENTIFIER,
+            seq(
+                '.',
+                $.identifier
+            )
+        ),
+
+        parenthesized_expression: $ => seq('(', $._expression, ')'),
+
+        // _compound_access: $ => choice('.', '?.'),
+
+        constructor_tearoff: $ => prec.right(seq(
+          $._type_name, optional($.type_arguments), '.', $._new_builtin,
+        )),
+
+        index_selector: $ => seq('[', $._expression, ']'),
+
+        /*** Wildcards unused ***************/
         wildcard: $ => seq(
             optional($._metadata),
             '?',
             optional($._wildcard_bounds)
         ),
-
         _wildcard_bounds: $ => choice(
             seq('extends', $._type),
             seq($.super, $._type)
         ),
+        /************************************/
 
+        /*
         dimensions: $ => prec.right(repeat1(
             seq(optional($._metadata), '[', ']')
         )),
-
-
-        local_function_declaration: $ => seq(
-            optional($._metadata),
-            $.lambda_expression
-        ),
-
-        expression_statement: $ => seq(
-            // FIXME: expression_statement
-            // $._expression,
-            optional($._expression),
-            $._semicolon
-        ),
-
-        label: $ => seq(
-            $.identifier, ':'
-        ),
+        */
 
         labeled_statement: $ => seq(
             $.identifier, ':', $._statement
         ),
 
-        assert_statement: $ => seq($.assertion, ';'),
 
-        assertion: $ => seq(
-            $.assert_builtin,
-            $.assertion_arguments,
-        ),
-
-        assertion_arguments: $ => seq(
-            '(',
-            $._expression,
-            optional(
-                seq(
-                    ',',
-                    $._expression
-                ),
-            ),
-            optional(','),
-            ')',
-        ),
-
-        switch_statement: $ => seq(
-            'switch',
-            field('condition', $.parenthesized_expression),
-            field('body', $.switch_block)
-        ),
-
-        /*
-        switch_expression: $ => seq(
-            'switch',
-            field('condition', $.parenthesized_expression),
-            field('body',
-             seq('{',
-               commaSep1TrailingComma($.switch_expression_case),
-            '}'
-            ))
-        ),
-
-        switch_expression_case: $ => seq($._guarded_pattern, '=>', $._expression),
-
-        _guarded_pattern: $ => seq(
-            $._pattern, optional(seq('when', $._expression))
-        ),
-
-        _pattern: $ => choice(
-            $._logical_or_pattern,
-        ),
-        */
         /*
         _logical_or_pattern: $ => seq($._logical_and_pattern, repeat(seq($.logical_or_operator, $._logical_and_pattern))),
         _logical_and_pattern: $ => seq($._relational_pattern, repeat(seq($.logical_and_operator, $._relational_pattern))),
@@ -2746,176 +3276,13 @@ module.exports = grammar({
         pattern_assignment: $ => seq($._outer_pattern, '=', $._expression),
         */
 
-        switch_block: $ => seq(
-            '{',
-                // 
-                repeat($.switch_case),
-                optional($.switch_statement_default),
-            '}'
-        ),
-
-        /*
-        switch_statement_case: $ =>  seq(
-            repeat($.label), $.case_builtin, $._guarded_pattern, ':', repeat($._statement),
-        ),
-        */
-
-        switch_statement_default: $ => seq(
-            repeat($.label), 'default', ':', repeat($._statement),
-        ),
-
-        switch_case: $ => prec.left(choice(
-            seq(repeat($.label), $.case_builtin, $._expression, ':', repeat1($._statement)),
-        )),
-
-        default_case: $ => choice(
-            seq(repeat($.label), 'default', ':', repeat1($._statement)),
-        ),
-
-        switch_label: $ => seq(
-            repeat($.label),
-            choice(
-                seq($.case_builtin, $._expression, ':'),
-                seq('default', ':')
-            )),
-
-        do_statement: $ => seq(
-            'do',
-            field('body', $._statement),
-            'while',
-            field('condition', $.parenthesized_expression),
-            $._semicolon
-        ),
-
-        break_statement: $ => seq($.break_builtin, optional($.identifier), $._semicolon),
-
-        continue_statement: $ => seq('continue', optional($.identifier), $._semicolon),
-
-        yield_statement: $ => seq('yield', $._expression, $._semicolon),
-
-        yield_each_statement: $ => seq('yield', '*', $._expression, $._semicolon),
-
-        return_statement: $ => seq(
-            'return',
-            optional($._expression),
-            $._semicolon
-        ),
-
-        throw_statement: $ => seq('throw', $._expression, $._semicolon),
-
-        try_statement: $ => seq(
-            $._try_head,
-            optional(choice(
-                $.finally_clause,
-                seq(repeat1($._on_part), optional($.finally_clause))
-            ))
-        ),
-        _on_part: $ => choice(
-            seq(
-                $.catch_clause,
-                $.block
-            ),
-            seq(
-                'on',
-                $._type_not_void,
-                optional($.catch_clause),
-                $.block
-            )
-        ),
-        _try_head: $ => seq(
-            'try',
-            field('body', $.block),
-        ),
-        catch_clause: $ => seq(
-            'catch',
-            $.catch_parameters,
-            // field('body', $.block)
-        ),
-
-        catch_parameters: $ => seq(
-            '(',
-            $.identifier,
-            optional(
-                seq(
-                    ',',
-                    $.identifier
-                ),
-            ),
-            ')',
-        ),
-
-        catch_type: $ => sep1($._type, '|'),
-
-        finally_clause: $ => seq('finally', $.block),
-
-        if_element: $ => prec.right(seq(
-            'if',
-            // '(', $._expression, optional(seq('case', $._guarded_pattern)) , ')',
-            '(', $._expression, ')',
-            field('consequence', $._element),
-            optional(seq('else', field('alternative', $._element)))
-        )),
-
-        if_statement: $ => prec.right(seq(
-            'if',
-            // '(', $._expression, optional(seq('case', $._guarded_pattern)) , ')',
-            '(', $._expression, ')',
-            // '(', $.relational_expression, ')',
-            field('consequence', $._statement),
-            optional(seq('else', field('alternative', $._statement)))
-        )),
 
 
-        while_statement: $ => seq(
-            'while',
-            field('condition', $.parenthesized_expression),
-            field('body', $._statement)
-        ),
+        // throw_statement: $ => seq('throw', $._expression, $._semicolon),
 
-        for_statement: $ => seq(
-            optional('await'),
-            'for',
-            '(',
-            $.for_loop_parts,
-            ')',
-            field('body', $._statement)
-        ),
 
-        // for_loop_parts: $ => seq('(', $._for_loop_parts, ')'),
 
-        for_loop_parts: $ => choice(
-            seq(
-                $._for_initializer_statement,
-                optional($._expression),
-                $._semicolon,
-                optional($._expression_list)
-            ),
-            seq(
-                $._for_in_loop_prefix,
-                'in',
-                $._expression
-            )
-        ),
 
-        _for_initializer_statement: $ => choice(
-            $.local_variable_declaration,
-            seq(optional($._expression), $._semicolon)
-        ),
-
-        _for_in_loop_prefix: $ => choice(
-            seq($._metadata,$._declared_identifier),
-            $.identifier
-        ),
-
-        // support map weirdness?
-        for_element: $ => seq(
-            optional('await'),
-            'for',
-            '(',
-            $.for_loop_parts,
-            ')',
-            field('body', $._element)
-        ),
 
 
         // Declarations
@@ -2927,139 +3294,19 @@ module.exports = grammar({
             $.enum_declaration,
         )),
 
-        import_or_export: $ => prec(
-            DART_PREC.IMPORT_EXPORT,
-            choice(
-                $.library_import,
-                $.library_export
-            )
-        ),
 
-        library_import: $ => seq(
-            optional($._metadata),
-            $.import_specification
-        ),
 
-        library_export: $ => seq(
-            optional($._metadata),
-            $._export,
-            $.configurable_uri,
-            repeat($.combinator),
-            $._semicolon
-        ),
 
-        import_specification: $ => choice(
-            seq(
-                $._import,
-                $.configurable_uri,
-                optional(
-                    seq(
-                        $._as,
-                        $.identifier
-                    )
-                ),
-                repeat($.combinator),
-                $._semicolon
-            ),
-            seq(
-                $._import,
-                $.uri,
-                $._deferred,
-                $._as,
-                $.identifier,
-                repeat($.combinator),
-                $._semicolon
-            )
-        ),
-
-        part_directive: $ => seq(
-            optional($._metadata),
-            'part',
-            $.uri,
-            $._semicolon
-        ),
-
-        part_of_directive: $ => seq(
-            optional($._metadata),
-            $.part_of_builtin,
-            choice($.dotted_identifier_list, $.uri),
-            $._semicolon
-        ),
-
-        uri: $ => $.string_literal,
-
-        configurable_uri: $ => seq(
-            $.uri,
-            repeat($.configuration_uri)
-        ),
-
-        configuration_uri: $ => seq(
-            'if',
-            $.configuration_uri_condition,
-            $.uri
-        ),
-
-        configuration_uri_condition: $ => seq('(', $.uri_test, ')'),
-
-        uri_test: $ => seq(
-            $.dotted_identifier_list,
-            optional(
-                seq(
-                    '==',
-                    $.string_literal
-                )
-            )
-        ),
-
-        combinator: $ => choice(
-            seq('show', $._identifier_list),
-            seq('hide', $._identifier_list)
-        ),
-
-        _identifier_list: $ => commaSep1($.identifier),
 
         asterisk: $ => '*',
 
 
-        type_alias: $ => choice(
-            seq(
-                optional($._metadata),
-                $._typedef,
-                optional($._type),
-                $._type_name,
-                $._formal_parameter_part, ';'),
-            seq(
-                optional($._metadata),
-                $._typedef,
-                $._type_name,
-                optional($.type_parameters),
-                '=', $._type, ';'),
-        ),
 
 
 
 
 
 
-
-        interface_type_list: $ => seq(
-            $._type,
-            repeat(seq(',', $._type))
-        ),
-
-        class_body: $ => seq(
-            '{',
-            repeat(
-                $._class_member_definition
-                /*
-                seq(
-                    optional($._metadata),
-                    $._class_member_definition
-                )
-                */
-            ),
-            '}'
-        ),
         extension_body: $ => seq(
             '{',
             repeat(
@@ -3178,118 +3425,6 @@ module.exports = grammar({
         */
         
 
-        // Types
-
-
-        _type: $ => choice(
-            seq(
-                $.function_type,
-                optional($.nullable_type)
-            ),
-            $._type_not_function
-            // $._function_type_tails,
-            // seq(
-            //     $._type_not_function,
-            //     $._function_type_tails
-            // ),
-            // $._type_not_function
-            // $._unannotated_type,
-            // $.annotated_type
-        ),
-        _type_not_function: $ => choice(
-            $._type_not_void_not_function,
-            seq($.record_type, optional($.nullable_type)),
-            $.void_type
-        ),
-        _type_not_void_not_function: $ => choice(
-            // FIXME: Swapped the below two.
-
-            // rewritten in accordance with the draft spec page 198
-            seq(
-                $._function_builtin_identifier,
-                optional($.nullable_type)
-            ),
-            seq(
-                $._type_name,
-                optional($.type_arguments),
-                optional($.nullable_type)
-            ),
-        ),
-
-        function_type: $ => choice(
-            $._function_type_tails,
-            seq(
-                $._type_not_function,
-                $._function_type_tails
-            )
-        ),
-        _function_type_tails: $ => repeat1($._function_type_tail),
-
-        _function_type_tail: $ => seq(
-            $._function_builtin_identifier,
-            optional($.type_parameters),
-            optional($.nullable_type),
-            optional($.parameter_type_list),
-            optional($.nullable_type),
-        ),
-
-        parameter_type_list: $ => seq(
-            '(',
-            optional(choice(
-                commaSep1TrailingComma($.normal_parameter_type),
-                seq(
-                    commaSep1($.normal_parameter_type),
-                    ',',
-                    $.optional_parameter_types,
-                ),
-                $.optional_parameter_types
-            ),),
-            ')'
-        ),
-
-        normal_parameter_type: $ => seq(
-            optional($._metadata),
-            choice(
-                $.typed_identifier,
-                $._type
-            )
-        ),
-
-        optional_parameter_types: $ => choice(
-            $.optional_positional_parameter_types,
-            $.named_parameter_types
-        ),
-
-        optional_positional_parameter_types: $ => seq(
-            '[',
-            commaSep1TrailingComma($.normal_parameter_type),
-            ']'
-        ),
-        named_parameter_types: $ => seq(
-            '{',
-            commaSep1TrailingComma($._named_parameter_type),
-            '}'
-        ),
-
-        _named_parameter_type: $ => seq(
-            optional($._metadata),
-            optional($._required),
-            $.typed_identifier
-        ),
-
-        _type_not_void: $ => choice(
-            seq(
-                $.function_type,
-                optional($.nullable_type)
-            ),
-            seq($.record_type, optional($.nullable_type)),
-            // $.function_type,
-            $._type_not_void_not_function
-            // alias($.identifier, $.type_identifier),
-            // // $.scoped_type_identifier,
-            // $.generic_type
-        ),
-
         record_type: $ => choice(
             seq('(', ')'),
             seq('(', commaSep1($.record_type_field), ',', '{' , commaSep1TrailingComma($.record_type_named_field), '}', ')'),
@@ -3309,46 +3444,6 @@ module.exports = grammar({
         ),
 
 
-        // FIXME: Lowered precedence from 0 to -1. Back to 0.
-        _type_name: $ => seq(
-            alias(
-                $.identifier,
-                $.type_identifier
-            ),
-            optional(
-                $._type_dot_identifier
-            ),
-            // optional($.nullable_type),
-        ),
-
-        // _type_name: $ => prec.right( // changed from above?
-        //     seq(
-        //         alias(
-        //             $.identifier,
-        //             $.type_identifier
-        //         ),
-        //         optional(
-        //             $._type_dot_identifier
-        //         ),
-        //         optional($.nullable_type),
-        //     )
-        // ),
-
-        _type_dot_identifier: $ => prec.right(
-            DART_PREC.IMPORT_EXPORT,
-            seq(
-                '.',
-                alias(
-                    $.identifier,
-                    $.type_identifier
-                )
-            )
-        ),
-
-        typed_identifier: $ => seq(
-            $._type,
-            $.identifier
-        ),
 
         // FIXME: Eliminate these?
         nullable_type: $ => prec(DART_PREC.BUILTIN, '?'),
@@ -3368,22 +3463,6 @@ module.exports = grammar({
 
 
 
-        function_expression_body: $ => choice(
-            seq(
-                optional('async'),
-                '=>',
-                $._expression
-            ),
-            seq(
-                optional(choice(
-                    'async',
-                    'async*',
-                    'sync*',
-                )),
-                $.block
-            )
-        ),
-
 
         // _get_identifier: $ => alias(
         //         $.identifier, // this way the syntax still highlights consistently.
@@ -3402,31 +3481,6 @@ module.exports = grammar({
             optional($._formal_parameter_part)
         ),
 
-        /*
-        local_variable_declaration: $ => choice(
-            seq(
-                optional($._metadata),
-                $.initialized_variable_definition,
-                $._semicolon
-            ),
-            seq(
-                optional($._metadata),
-                $.pattern_variable_declaration,
-                $._semicolon
-            )
-        ),
-        */
-        local_variable_declaration: $ => seq(
-                optional($._metadata),
-                $.initialized_variable_declaration,
-                $._semicolon
-        ),
-
-        script_tag: $ => seq('#!', /.+/, '\n'),
-
-        library_name: $ => seq(optional($._metadata), 'library', $.dotted_identifier_list, $._semicolon),
-
-        dotted_identifier_list: $ => sep1($.identifier, '.'),
 
         _identifier_or_new: $ => choice($.identifier, $._new_builtin),
 
