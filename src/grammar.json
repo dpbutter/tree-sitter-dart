@@ -5873,6 +5873,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "type_cast_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type_test_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "bitwise_or_expression"
         },
         {
@@ -6224,18 +6232,64 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "super"
+                "type": "FIELD",
+                "name": "left",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "super"
+                }
               },
               {
-                "type": "SYMBOL",
-                "name": "relational_operator"
+                "type": "FIELD",
+                "name": "operator",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "relational_operator"
+                }
               },
               {
-                "type": "SYMBOL",
-                "name": "_real_expression"
+                "type": "FIELD",
+                "name": "right",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_real_expression"
+                }
               }
             ]
+          }
+        ]
+      }
+    },
+    "type_cast_expression": {
+      "type": "PREC_LEFT",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_real_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_cast"
+          }
+        ]
+      }
+    },
+    "type_test_expression": {
+      "type": "PREC",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_real_expression"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "type_test"
           }
         ]
       }

@@ -2042,6 +2042,8 @@ module.exports = grammar({
             
 
             $.relational_expression,
+            $.type_cast_expression,
+            $.type_test_expression,
 
             
             $.bitwise_or_expression,
@@ -2054,8 +2056,6 @@ module.exports = grammar({
             
             $._primary,
             
-            // $.type_cast_expression,
-            // $.type_test_expression,
         ),
 
 
@@ -2118,20 +2118,12 @@ module.exports = grammar({
                 seq(
                     field("left", choice($._real_expression, $._primary, $.identifier)),
                     field("operator", $.relational_operator), 
-                    field("right", choice($._real_expression, $._primary, $.identifier))
-                    
-                    /*
-                    choice(
-                        // $.type_test,
-                        // $.type_cast,
-                        seq($.relational_operator, $._real_expression)
-                    )
-                    */
+                    field("right", choice($._real_expression, $._primary, $.identifier))                    
                 ),
                 seq(
-                    $.super,
-                    $.relational_operator,
-                    $._real_expression
+                    field("left", $.super),
+                    field("operator", $.relational_operator),
+                    field("right", $._real_expression)
                 ),
             )
         ),
@@ -2184,7 +2176,7 @@ module.exports = grammar({
 
         // FIXME: Fix type cast expressions
 
-        /*
+        
         type_cast_expression: $ => prec.left(
             DART_PREC.RelationalTypeCast,
             seq(
@@ -2201,7 +2193,7 @@ module.exports = grammar({
                 $.type_test,
             )
         ),
-        */
+        
 
 
         // _raw_type_cast: $ => prec.right(
