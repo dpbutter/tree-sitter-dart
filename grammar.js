@@ -49,7 +49,6 @@ const DART_PREC = {
 // todo: type test operators: as, is, and is!
 //todo: assignment operators: ??=, and ~/=
 //todo: ?? operator
-// todo: cascade notation: dot dot accesses each object
 //todo: conditional member access: blah?.foo
 //todo: rethrow keyword
 //todo: override operator notations
@@ -57,7 +56,6 @@ const DART_PREC = {
 //todo: sync* and async* functions, plus yields
 
 //DONE: override shorter constructor notations?
-
 
 module.exports = grammar({
     name: 'dart',
@@ -97,6 +95,8 @@ module.exports = grammar({
         // Added inline objects
         $._var_or_type,
         $._identifier_or_new,
+
+        $._assignable_expression,
     ],
 
     conflicts: $ => [
@@ -125,7 +125,7 @@ module.exports = grammar({
         // [$._type_not_function, $._type_not_void],
         [$._expression],
         // [$._real_expression, $._below_relational_expression],
-        [$._postfix_expression],
+        [$.postfix_expression],
         // [$.pattern_variable_declaration, $._var_or_type],
         // [$._final_const_var_or_type, $.pattern_variable_declaration],
         [$.type_arguments, $.relational_operator],
@@ -179,18 +179,19 @@ module.exports = grammar({
 
         [$.type_parameter, $._type_name],
         [$._normal_formal_parameter],
-        [$._assignable_selector_part, $.selector],
-        [$._assignable_selector_part, $._postfix_expression],
-        [$._primary, $.assignable_expression],
-        [$._simple_formal_parameter, $.assignable_expression],
+        // [$._assignable_selector_part, $.selector],
+        // [$._assignable_selector_part, $._postfix_expression],
+        // [$._primary, $.assignable_expression],
+        // [$._simple_formal_parameter, $.assignable_expression],
         // [$._type_name, $._primary, $.assignable_expression],
-        [$.assignable_expression, $._postfix_expression],
+        // [$.assignable_expression, $._postfix_expression],
         // [$._type_name, $.assignable_expression],
         // [$._type_name, $.function_signature],
         [$._type_name, $._function_formal_parameter],
         [$._type_name],
         // [$.assignment_expression, $._expression],
-        [$._primary, $._type_name, $.assignable_expression],
+        // [$._primary, $._type_name, $.assignable_expression],
+        [$._primary, $._type_name],
         [$._type_name, $.function_signature],
         // [$.relational_operator, $._shift_operator],
         [$.declaration, $._external],
@@ -198,7 +199,7 @@ module.exports = grammar({
         [$._type_not_void_not_function, $._function_type_tail],
         [$._type_not_void],
         [$._type_not_void_not_function],
-        [$.super_formal_parameter, $._unconditional_assignable_selector],
+        // [$.super_formal_parameter, $._unconditional_assignable_selector],
 
         // [$.throw_expression, $.call_expression],
         // [$.await_expression, $.call_expression],
@@ -208,10 +209,10 @@ module.exports = grammar({
         [$.type_arguments, $.relational_expression],
         [$.type_arguments, $.relational_expression, $._real_expression],
         [$._real_expression, $.call_expression],
-        [$.relational_expression, $._postfix_expression],
+        [$.relational_expression, $.postfix_expression],
         [$.relational_expression, $.call_expression],
         [$.relational_expression, $.type_arguments], 
-        [$._postfix_expression, $.type_arguments], // Ensures ambiguity in `<b>`
+        [$.postfix_expression, $.type_arguments], // Ensures ambiguity in `<b>`
         [$.relational_expression, $._type_name],  // Directly prevents `_type_name` from overriding `<b>`        
         [$._real_expression],
         [$._primary, $._real_expression],
@@ -235,6 +236,11 @@ module.exports = grammar({
 
         [$._primary, $._type_name, $._type_not_void_not_function],
         [$._type_name, $._type_not_void_not_function],
+
+        // Added to make cascades work
+        [$._element, $.index_selector]
+
+
     ],
 
     word: $ => $.identifier,
@@ -385,7 +391,6 @@ module.exports = grammar({
             seq(
                 '#', 
                 choice(
-                    $.primary_selector,
                     $._primary,
                     $.void_type
                     // operator
@@ -1461,7 +1466,7 @@ module.exports = grammar({
             // $._conditional_expression,
             $._real_expression,
             // FIXME: Add cascade
-            // $.cascade,
+            $.cascade,
             $.throw_expression
         ),
 
@@ -1696,7 +1701,7 @@ module.exports = grammar({
             // $._conditional_expression,
             $._real_expression,
             // FIXME: Add cascade
-            // $.cascade,
+            $.cascade,
             $.throw_expression,
         ),
 
@@ -1709,9 +1714,10 @@ module.exports = grammar({
         _expression_list: $=> commaSep1($._expression),
 
 
-        // Exactly matches Dart specification
+        // Revision of specification to improve "selector" behavior
         _primary: $ => choice(
             $.this,
+            /*
             seq(
                 $.super,
                 $._unconditional_assignable_selector
@@ -1720,6 +1726,7 @@ module.exports = grammar({
                 $.super,
                 $.argument_part
             ),
+            */
             $.function_expression,
             $._literal,
             $.identifier,
@@ -1727,6 +1734,13 @@ module.exports = grammar({
             $.const_object_expression,
             $.constructor_tearoff,
             $.parenthesized_expression,
+
+            $.conditional_index_expression,
+            $.index_expression,
+
+            $.conditional_member_expression,
+            $.member_expression,
+            $.call_expression,
 
             // $.class_literal,
             // $.switch_expression,
@@ -1820,12 +1834,10 @@ module.exports = grammar({
         cascade: $ =>  prec.left(
             DART_PREC.Cascade,
             seq(
-                field("receiver", $._expression),  // Base object
+                field("receiver", $._real_expression),  // Base object
                 repeat1(seq(
                     choice('..', '?..'),  // Regular and null-aware cascade
-                    field("operation", choice(
-                        $._expression,
-                    ))
+                    $.cascade_section,
                 ))
         )),
 
@@ -1853,15 +1865,18 @@ module.exports = grammar({
 
         cascade_section: $ => prec.left(
             DART_PREC.Cascade,
-            seq(
-                $.cascade_selector,
-                $.cascade_section_tail,
+            choice(
+                seq(
+                    $.cascade_selector,
+                    $.cascade_section_tail,
+                ),
+                $.call_expression
             )
         ),
 
         cascade_selector: $ => choice(
             $.index_selector,
-            $.identifier
+            $.identifier,
         ),
  
         // FIXME: This doesn't quite work because of the new call_expression.
@@ -1870,10 +1885,10 @@ module.exports = grammar({
             DART_PREC.Cascade,
             choice(
                 $._cascade_assignment_section,
-                repeat1($.selector),
+                // repeat1($.selector),
                 seq(
-                    repeat($.selector),
-                    $._assignable_selector,
+                    // repeat($.selector),
+                    // $._assignable_selector,
                     $._cascade_assignment_section
                 )
             )
@@ -1939,13 +1954,13 @@ module.exports = grammar({
          ***************************************************************************************************/
 
         assignment_expression: $ => prec.right(DART_PREC.Assignment, seq( //right
-            field('left', $.assignable_expression),
+            field('left', $._assignable_expression),
             field('operator', $._assignment_operator),
             field('right', $._expression)
         )),
 
         assignment_expression_without_cascade: $ => prec.right(DART_PREC.Assignment, seq( //right
-            field('left', $.assignable_expression),
+            field('left', $._assignable_expression),
             field('operator', $._assignment_operator),
             field('right', $._expression_without_cascade)
         )),
@@ -2015,17 +2030,10 @@ module.exports = grammar({
             ')'
         ),
 
-        ambiguous_relational_or_call: $ => prec.right(
-            choice(
-                $.call_expression,
-                $.relational_expression,
-                // $._postfix_expression,
-        )),
-
 
         _real_expression: $ => choice(
             
-            $._postfix_expression,
+            $.postfix_expression,
     
             $.conditional_expression,
             $.if_null_expression,
@@ -2268,16 +2276,19 @@ module.exports = grammar({
         // We split unaries into prefix and postfix.
 
         prefix_expression: $ => prec(DART_PREC.UNARY_PREFIX, choice(
-            seq($.prefix_operator, choice($.prefix_expression, $._postfix_expression)),
+            seq($._prefix_operator, choice($.prefix_expression, $.postfix_expression)),
             $.await_expression,
             seq(
                 choice($.minus_operator, $.tilde_operator),
                 $.super
             ),
-            seq($.increment_operator, $.assignable_expression)
+            seq(
+                field("operator", $.increment_operator), 
+                field("object", $._assignable_expression)
+            )
         )),
 
-        prefix_operator: $ => choice(
+        _prefix_operator: $ => choice(
             $.minus_operator,
             $.negation_operator,
             $.tilde_operator
@@ -2298,6 +2309,50 @@ module.exports = grammar({
 
         /*** 17.35 Postfix Expressions ***/
 
+        /*** REVISIION: Replace selectors with member_expression and subscript_expression ***/
+
+
+        index_expression: $ => prec.left(
+            DART_PREC.UNARY_POSTFIX,
+            seq(
+                field("object", choice($._primary,$.super)),
+                '[',
+                field("index", $._primary),
+                ']',
+            ),
+        ),
+
+        conditional_index_expression: $ => prec.left(
+            DART_PREC.UNARY_POSTFIX+1,
+            seq(
+                field("object", $._primary),
+                '?[',
+                field("index", $._primary),
+                ']',
+            ),
+        ),
+
+        member_expression: $ => prec.left(
+            DART_PREC.UNARY_POSTFIX,
+            seq(
+                field("object", choice($._primary,$.super)),
+                '.',
+                field("member", $.identifier),
+            ),
+        ), 
+
+        conditional_member_expression: $ => prec.left(
+            DART_PREC.UNARY_POSTFIX+1,
+            seq(
+                field("object", $._primary),
+                '?.',
+                field("member", $.identifier),
+            ),
+        ), 
+
+
+
+
         /*
         _postfix_expression: $ => prec.right(choice(
             seq(
@@ -2313,26 +2368,17 @@ module.exports = grammar({
         )),
         */
 
-        _postfix_expression: $ => prec.right(
+        postfix_expression: $ => prec.right(
             DART_PREC.UNARY_POSTFIX,
             choice(
-                
                 seq(
-                    $.assignable_expression,
-                    $.postfix_operator
+                    field("object", $._assignable_expression),
+                    field("operator", $._postfix_operator)
                 ),
-                
-                /*
-                seq(
-                    $._primary,
-                    repeat($.selector)
-                ))
-                */
-                $.call_expression,
-                $.primary_selector,
             )),
 
-        postfix_operator: $ => $.increment_operator,
+        _postfix_operator: $ => $.increment_operator,
+
 
 
         constructor_invocation: $ => prec.right(choice(
@@ -2340,12 +2386,14 @@ module.exports = grammar({
             // seq($._type_name, '.', $._new_builtin, $.arguments),
         )),
 
+
+        /*
         selector: $ => choice(
             $._exclamation_operator,
             $._assignable_selector,
             // $.argument_part,
         ),
-
+        */
 
         /*
         primary_selector: $ => prec.right(seq(
@@ -2353,6 +2401,7 @@ module.exports = grammar({
             repeat($.selector)
         )),
         */
+        /*
         primary_selector: $=> prec(
             DART_PREC.UNARY_POSTFIX+1,
             seq(
@@ -2360,12 +2409,12 @@ module.exports = grammar({
                 field("selector", $.selector)
             )
         ),
-
-
-        call_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX+1,
+        */
+       
+        call_expression: $ => prec.left(DART_PREC.UNARY_POSTFIX-1,
             seq(
                 // field("function", $._postfix_expression),
-                field("function", choice($.call_expression, $.primary_selector, $._primary, $.identifier)),
+                field("function", choice($._primary, $.identifier, $.super)),
                 field("arguments", $.argument_part)
             )
         ),
@@ -2400,21 +2449,29 @@ module.exports = grammar({
         /*** 17.36 Assignable expressions ***/
 
         // FIXME: check
-        assignable_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX, choice(
-            seq($._primary, $._assignable_selector_part),
+        _assignable_expression: $ => prec.right(DART_PREC.UNARY_POSTFIX, choice(
+
             // seq($._primary, $._assignable_selector),
             // seq($.primary_selector, $._assignable_selector),
-            seq($.super, $._unconditional_assignable_selector),
             // seq($.constructor_invocation, $._assignable_selector_part),   // TODO: remove to agree with 3.0??
+
+            /*
+            seq($._primary, $._assignable_selector_part),
+            seq($.super, $._unconditional_assignable_selector),
+            */
+            $.member_expression,
+            $.index_expression,
+            $.call_expression,
             $.identifier
         )),
         
+
+       /*
         _assignable_selector_part: $ => seq(
             repeat($.selector),
             $._assignable_selector
         ),
         
-       
         _unconditional_assignable_selector: $ => choice(
             $.index_selector,
             seq('.', $.identifier)
@@ -2429,6 +2486,7 @@ module.exports = grammar({
             $._unconditional_assignable_selector,
             $._conditional_assignable_selector
         ),
+        */
 
 
 /*** 17.38 Identifier Reference ***/

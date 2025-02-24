@@ -163,14 +163,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -188,6 +180,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -215,7 +215,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -224,6 +224,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -239,15 +243,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -313,7 +313,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -322,14 +322,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -353,7 +345,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -381,7 +385,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -390,6 +394,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -405,15 +413,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -422,10 +426,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -533,14 +533,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -561,7 +553,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -589,7 +593,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -598,6 +602,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -613,15 +621,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -630,10 +634,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -648,65 +648,6 @@
     }
   },
   {
-    "type": "assignable_expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_literal",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "const_object_expression",
-          "named": true
-        },
-        {
-          "type": "constructor_tearoff",
-          "named": true
-        },
-        {
-          "type": "function_expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_selector",
-          "named": true
-        },
-        {
-          "type": "new_expression",
-          "named": true
-        },
-        {
-          "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "selector",
-          "named": true
-        },
-        {
-          "type": "super",
-          "named": true
-        },
-        {
-          "type": "this",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "assignment_expression",
     "named": true,
     "fields": {
@@ -715,7 +656,19 @@
         "required": true,
         "types": [
           {
-            "type": "assignable_expression",
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -783,27 +736,15 @@
         ]
       },
       "right": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -827,7 +768,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -855,7 +808,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -864,6 +817,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -879,15 +836,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -896,10 +849,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -923,7 +872,19 @@
         "required": true,
         "types": [
           {
-            "type": "assignable_expression",
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           }
         ]
@@ -991,27 +952,15 @@
         ]
       },
       "right": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -1039,6 +988,14 @@
             "named": true
           },
           {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
             "type": "const_object_expression",
             "named": true
           },
@@ -1063,7 +1020,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -1072,6 +1029,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -1087,15 +1048,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -1104,10 +1061,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -1127,7 +1080,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -1136,14 +1089,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -1164,6 +1109,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -1191,7 +1144,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -1200,6 +1153,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -1215,15 +1172,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -1232,10 +1185,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -1298,14 +1247,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -1323,6 +1264,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -1350,7 +1299,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -1359,6 +1308,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -1374,15 +1327,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -1426,14 +1375,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -1451,6 +1392,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -1478,7 +1427,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -1487,6 +1436,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -1502,15 +1455,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -1549,14 +1498,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -1574,6 +1515,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -1601,7 +1550,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -1610,6 +1559,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -1625,15 +1578,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -1704,23 +1653,23 @@
         ]
       },
       "function": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
-            "type": "argument_part",
+            "type": "call_expression",
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -1740,7 +1689,11 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -1749,10 +1702,6 @@
           },
           {
             "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -1771,162 +1720,16 @@
     "type": "cascade",
     "named": true,
     "fields": {
-      "operation": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "_literal",
-            "named": true
-          },
-          {
-            "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
-            "named": true
-          },
-          {
-            "type": "assignment_expression",
-            "named": true
-          },
-          {
-            "type": "bitwise_and_expression",
-            "named": true
-          },
-          {
-            "type": "bitwise_or_expression",
-            "named": true
-          },
-          {
-            "type": "bitwise_xor_expression",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "conditional_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_tearoff",
-            "named": true
-          },
-          {
-            "type": "equality_expression",
-            "named": true
-          },
-          {
-            "type": "function_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "if_null_expression",
-            "named": true
-          },
-          {
-            "type": "index_selector",
-            "named": true
-          },
-          {
-            "type": "logical_and_expression",
-            "named": true
-          },
-          {
-            "type": "logical_or_expression",
-            "named": true
-          },
-          {
-            "type": "multiplicative_expression",
-            "named": true
-          },
-          {
-            "type": "new_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "postfix_operator",
-            "named": true
-          },
-          {
-            "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
-            "named": true
-          },
-          {
-            "type": "relational_expression",
-            "named": true
-          },
-          {
-            "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          },
-          {
-            "type": "throw_expression",
-            "named": true
-          }
-        ]
-      },
       "receiver": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
-            "named": true
-          },
-          {
-            "type": "assignment_expression",
             "named": true
           },
           {
@@ -1947,6 +1750,14 @@
           },
           {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -1974,7 +1785,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -1983,6 +1794,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -1998,15 +1813,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -2018,19 +1829,21 @@
             "named": true
           },
           {
-            "type": "super",
-            "named": true
-          },
-          {
             "type": "this",
-            "named": true
-          },
-          {
-            "type": "throw_expression",
             "named": true
           }
         ]
       }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "cascade_section",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -2041,6 +1854,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "call_expression",
+          "named": true
+        },
         {
           "type": "cascade_section_tail",
           "named": true
@@ -2057,7 +1874,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -2066,14 +1883,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -2101,6 +1910,14 @@
           "named": true
         },
         {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
+          "named": true
+        },
+        {
           "type": "const_object_expression",
           "named": true
         },
@@ -2125,7 +1942,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -2134,6 +1951,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -2149,7 +1970,7 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
@@ -2157,23 +1978,11 @@
           "named": true
         },
         {
-          "type": "primary_selector",
-          "named": true
-        },
-        {
           "type": "relational_expression",
           "named": true
         },
         {
-          "type": "selector",
-          "named": true
-        },
-        {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -2370,27 +2179,15 @@
     "named": true,
     "fields": {
       "alternative": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -2418,6 +2215,14 @@
             "named": true
           },
           {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
             "type": "const_object_expression",
             "named": true
           },
@@ -2442,7 +2247,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -2451,6 +2256,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -2466,15 +2275,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -2483,10 +2288,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -2500,27 +2301,15 @@
         ]
       },
       "consequence": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -2548,6 +2337,14 @@
             "named": true
           },
           {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
             "type": "const_object_expression",
             "named": true
           },
@@ -2572,7 +2369,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -2581,6 +2378,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -2596,15 +2397,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -2613,10 +2410,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -2631,7 +2424,7 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -2640,14 +2433,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -2668,6 +2453,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -2695,7 +2488,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -2704,6 +2497,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -2719,15 +2516,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -2739,14 +2532,206 @@
           "named": true
         },
         {
-          "type": "super",
-          "named": true
-        },
-        {
           "type": "this",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "conditional_index_expression",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
+            "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
+            "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "conditional_member_expression",
+    "named": true,
+    "fields": {
+      "member": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
+            "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -3282,14 +3267,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -3307,6 +3284,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -3338,7 +3323,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -3347,6 +3332,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -3362,15 +3351,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -3426,19 +3411,23 @@
         ]
       },
       "object": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
-            "type": "argument_part",
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -3458,7 +3447,11 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -3471,10 +3464,6 @@
           },
           {
             "type": "scoped_identifier",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -3500,7 +3489,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -3509,14 +3498,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -3540,7 +3521,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -3568,7 +3561,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -3577,6 +3570,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -3592,15 +3589,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -3609,10 +3602,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -3873,27 +3862,15 @@
     "named": true,
     "fields": {
       "body": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -3917,7 +3894,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -3953,7 +3942,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -3962,6 +3951,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -3981,15 +3974,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -4002,10 +3991,6 @@
           },
           {
             "type": "spread_element",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -4062,14 +4047,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -4090,7 +4067,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -4130,7 +4119,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -4150,6 +4139,10 @@
           "named": true
         },
         {
+          "type": "member_expression",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -4166,15 +4159,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -4187,10 +4176,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -4344,7 +4329,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -4353,14 +4338,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -4388,7 +4365,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -4416,7 +4405,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -4425,6 +4414,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -4440,15 +4433,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -4457,10 +4446,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -4532,7 +4517,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -4541,14 +4526,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -4576,7 +4553,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -4604,7 +4593,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -4613,6 +4602,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -4628,15 +4621,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -4645,10 +4634,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -4931,27 +4916,15 @@
     "named": true,
     "fields": {
       "alternative": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -4975,7 +4948,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -5011,7 +4996,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -5020,6 +5005,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -5039,15 +5028,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -5060,10 +5045,6 @@
           },
           {
             "type": "spread_element",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -5077,27 +5058,15 @@
         ]
       },
       "consequence": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -5121,7 +5090,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -5157,7 +5138,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -5166,6 +5147,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -5185,15 +5170,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -5206,10 +5187,6 @@
           },
           {
             "type": "spread_element",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -5224,7 +5201,7 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -5233,14 +5210,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -5264,7 +5233,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -5292,7 +5273,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -5301,6 +5282,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -5316,15 +5301,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -5333,10 +5314,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -5367,14 +5344,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -5392,6 +5361,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -5419,7 +5396,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -5428,6 +5405,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -5443,15 +5424,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -5460,10 +5437,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -5499,7 +5472,7 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -5508,14 +5481,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -5539,7 +5504,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -5567,7 +5544,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -5576,6 +5553,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -5591,15 +5572,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -5608,10 +5585,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -5672,11 +5645,137 @@
     }
   },
   {
+    "type": "index_expression",
+    "named": true,
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
+            "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
+            "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "super",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "index_selector",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -5685,14 +5784,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -5716,7 +5807,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -5744,7 +5847,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -5753,6 +5856,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -5768,15 +5875,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -5785,10 +5888,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -5822,27 +5921,15 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -5866,7 +5953,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -5894,7 +5993,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -5903,6 +6002,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -5918,15 +6021,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -5935,10 +6034,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -6024,7 +6119,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -6033,14 +6128,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -6064,7 +6151,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -6092,7 +6191,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -6101,6 +6200,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -6116,15 +6219,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -6133,10 +6232,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -6356,14 +6451,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -6384,7 +6471,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -6424,7 +6523,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -6433,6 +6532,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -6452,15 +6555,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -6473,10 +6572,6 @@
         },
         {
           "type": "spread_element",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -6549,14 +6644,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -6574,6 +6661,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -6601,7 +6696,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -6617,6 +6712,10 @@
           "named": true
         },
         {
+          "type": "member_expression",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -6629,15 +6728,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -6646,10 +6741,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -6681,14 +6772,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -6706,6 +6789,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -6733,7 +6824,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -6749,6 +6840,10 @@
           "named": true
         },
         {
+          "type": "member_expression",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -6761,15 +6856,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -6778,10 +6869,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -6795,6 +6882,84 @@
     "type": "logical_or_operator",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "member_expression",
+    "named": true,
+    "fields": {
+      "member": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
+            "named": true
+          },
+          {
+            "type": "const_object_expression",
+            "named": true
+          },
+          {
+            "type": "constructor_tearoff",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "super",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "method_definition",
@@ -7070,14 +7235,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -7095,6 +7252,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -7122,7 +7287,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -7131,6 +7296,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -7150,15 +7319,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -7200,27 +7365,15 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -7244,7 +7397,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -7272,7 +7437,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -7281,6 +7446,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -7296,15 +7465,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -7313,10 +7478,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -7526,14 +7687,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -7554,7 +7707,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -7606,7 +7771,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -7619,6 +7784,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -7638,15 +7807,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -7659,10 +7824,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -7731,27 +7892,15 @@
     "named": true,
     "fields": {
       "key": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -7775,7 +7924,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -7803,7 +7964,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -7812,6 +7973,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -7827,15 +7992,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -7844,10 +8005,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -7861,27 +8018,15 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -7905,7 +8050,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -7933,7 +8090,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -7942,6 +8099,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -7957,15 +8118,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -7974,10 +8131,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -8016,7 +8169,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -8025,14 +8178,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -8056,7 +8201,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -8084,7 +8241,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -8093,6 +8250,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -8108,15 +8269,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -8125,10 +8282,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -8189,42 +8342,86 @@
     }
   },
   {
-    "type": "postfix_operator",
+    "type": "postfix_expression",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "increment_operator",
-          "named": true
-        }
-      ]
+    "fields": {
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "increment_operator",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "prefix_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "object": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "increment_operator",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "await_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "increment_operator",
           "named": true
         },
         {
@@ -8232,19 +8429,15 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "negation_operator",
+          "named": true
+        },
+        {
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "prefix_operator",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -8256,107 +8449,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "prefix_operator",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "minus_operator",
-          "named": true
-        },
-        {
-          "type": "negation_operator",
-          "named": true
-        },
-        {
-          "type": "tilde_operator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "primary_selector",
-    "named": true,
-    "fields": {
-      "object": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": ".",
-            "named": false
-          },
-          {
-            "type": "_literal",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "call_expression",
-            "named": true
-          },
-          {
-            "type": "const_object_expression",
-            "named": true
-          },
-          {
-            "type": "constructor_tearoff",
-            "named": true
-          },
-          {
-            "type": "function_expression",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index_selector",
-            "named": true
-          },
-          {
-            "type": "new_expression",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
-            "named": true
-          },
-          {
-            "type": "super",
-            "named": true
-          },
-          {
-            "type": "this",
-            "named": true
-          }
-        ]
-      },
-      "selector": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "selector",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -8455,14 +8547,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -8483,7 +8567,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -8511,7 +8607,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -8527,6 +8623,10 @@
           "named": true
         },
         {
+          "type": "member_expression",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -8539,15 +8639,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -8556,10 +8652,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -8590,14 +8682,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -8618,7 +8702,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -8650,7 +8746,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -8666,6 +8762,10 @@
           "named": true
         },
         {
+          "type": "member_expression",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -8678,15 +8778,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -8699,10 +8795,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -8868,27 +8960,15 @@
     "named": true,
     "fields": {
       "left": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -8909,6 +8989,14 @@
           },
           {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -8936,7 +9024,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -8945,6 +9033,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -8960,15 +9052,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -8977,10 +9065,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -9000,27 +9084,15 @@
         ]
       },
       "right": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -9041,6 +9113,14 @@
           },
           {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -9068,7 +9148,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -9077,6 +9157,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -9092,15 +9176,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -9109,10 +9189,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -9135,14 +9211,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -9160,6 +9228,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -9187,7 +9263,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -9196,6 +9272,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -9211,15 +9291,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -9255,7 +9331,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -9264,14 +9340,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -9295,7 +9363,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -9323,7 +9403,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -9332,6 +9412,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -9347,15 +9431,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -9364,10 +9444,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -9422,25 +9498,6 @@
     "fields": {}
   },
   {
-    "type": "selector",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index_selector",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "set_or_map_literal",
     "named": true,
     "fields": {},
@@ -9454,14 +9511,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -9485,7 +9534,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -9525,7 +9586,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -9534,6 +9595,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -9553,15 +9618,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -9574,10 +9635,6 @@
         },
         {
           "type": "spread_element",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -9693,14 +9750,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "bitwise_and_expression",
           "named": true
         },
@@ -9718,6 +9767,14 @@
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -9745,7 +9802,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -9754,6 +9811,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -9769,15 +9830,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -9813,7 +9870,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -9822,14 +9879,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -9853,7 +9902,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -9881,7 +9942,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -9890,6 +9951,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -9905,15 +9970,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -9922,10 +9983,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -9954,27 +10011,15 @@
         ]
       },
       "value": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
-          {
-            "type": ".",
-            "named": false
-          },
           {
             "type": "_literal",
             "named": true
           },
           {
             "type": "additive_expression",
-            "named": true
-          },
-          {
-            "type": "argument_part",
-            "named": true
-          },
-          {
-            "type": "assignable_expression",
             "named": true
           },
           {
@@ -9998,7 +10043,19 @@
             "named": true
           },
           {
+            "type": "cascade",
+            "named": true
+          },
+          {
             "type": "conditional_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_index_expression",
+            "named": true
+          },
+          {
+            "type": "conditional_member_expression",
             "named": true
           },
           {
@@ -10026,7 +10083,7 @@
             "named": true
           },
           {
-            "type": "index_selector",
+            "type": "index_expression",
             "named": true
           },
           {
@@ -10035,6 +10092,10 @@
           },
           {
             "type": "logical_or_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
             "named": true
           },
           {
@@ -10050,15 +10111,11 @@
             "named": true
           },
           {
-            "type": "postfix_operator",
+            "type": "postfix_expression",
             "named": true
           },
           {
             "type": "prefix_expression",
-            "named": true
-          },
-          {
-            "type": "primary_selector",
             "named": true
           },
           {
@@ -10067,10 +10124,6 @@
           },
           {
             "type": "shift_expression",
-            "named": true
-          },
-          {
-            "type": "super",
             "named": true
           },
           {
@@ -10214,14 +10267,6 @@
           "named": true
         },
         {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
-          "named": true
-        },
-        {
           "type": "assignment_expression",
           "named": true
         },
@@ -10242,11 +10287,23 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "case_builtin",
           "named": true
         },
         {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -10274,7 +10331,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -10290,6 +10347,10 @@
           "named": true
         },
         {
+          "type": "member_expression",
+          "named": true
+        },
+        {
           "type": "multiplicative_expression",
           "named": true
         },
@@ -10302,15 +10363,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -10319,10 +10376,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -10386,7 +10439,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -10394,7 +10447,15 @@
           "named": true
         },
         {
-          "type": "argument_part",
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -10414,7 +10475,11 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -10423,14 +10488,6 @@
         },
         {
           "type": "parenthesized_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -10449,7 +10506,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -10458,14 +10515,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -10489,7 +10538,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -10521,7 +10582,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -10530,6 +10591,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -10545,15 +10610,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -10562,10 +10623,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -10589,7 +10646,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -10598,14 +10655,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -10629,7 +10678,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -10657,7 +10718,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -10666,6 +10727,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -10681,15 +10746,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -10698,10 +10759,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -10720,7 +10777,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -10729,14 +10786,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -10764,6 +10813,14 @@
           "named": true
         },
         {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
+          "named": true
+        },
+        {
           "type": "const_object_expression",
           "named": true
         },
@@ -10788,7 +10845,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -10797,6 +10854,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -10812,15 +10873,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -10829,10 +10886,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -11169,7 +11222,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -11178,14 +11231,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -11209,7 +11254,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -11237,7 +11294,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -11246,6 +11303,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -11261,15 +11322,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -11278,10 +11335,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -11300,7 +11353,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -11309,14 +11362,6 @@
         },
         {
           "type": "additive_expression",
-          "named": true
-        },
-        {
-          "type": "argument_part",
-          "named": true
-        },
-        {
-          "type": "assignable_expression",
           "named": true
         },
         {
@@ -11340,7 +11385,19 @@
           "named": true
         },
         {
+          "type": "cascade",
+          "named": true
+        },
+        {
           "type": "conditional_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_index_expression",
+          "named": true
+        },
+        {
+          "type": "conditional_member_expression",
           "named": true
         },
         {
@@ -11368,7 +11425,7 @@
           "named": true
         },
         {
-          "type": "index_selector",
+          "type": "index_expression",
           "named": true
         },
         {
@@ -11377,6 +11434,10 @@
         },
         {
           "type": "logical_or_expression",
+          "named": true
+        },
+        {
+          "type": "member_expression",
           "named": true
         },
         {
@@ -11392,15 +11453,11 @@
           "named": true
         },
         {
-          "type": "postfix_operator",
+          "type": "postfix_expression",
           "named": true
         },
         {
           "type": "prefix_expression",
-          "named": true
-        },
-        {
-          "type": "primary_selector",
           "named": true
         },
         {
@@ -11409,10 +11466,6 @@
         },
         {
           "type": "shift_expression",
-          "named": true
-        },
-        {
-          "type": "super",
           "named": true
         },
         {
@@ -11616,6 +11669,10 @@
   },
   {
     "type": "??=",
+    "named": false
+  },
+  {
+    "type": "?[",
     "named": false
   },
   {
