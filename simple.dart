@@ -1,1 +1,1 @@
-var foo = foo[0].bar()[1][2];
+var foo = a+b*c+d;

@@ -90,7 +90,6 @@ module.exports = grammar({
     inline: $ => [
         $._ambiguous_name,
         $._class_member_definition,
-        $._if_null_expression,
 
         // Added inline objects
         $._var_or_type,
@@ -2049,8 +2048,8 @@ module.exports = grammar({
             $.bitwise_xor_expression,
             $.bitwise_and_expression,
             $.shift_expression,
-            $.additive_expression,
-            $.multiplicative_expression,
+            alias($.additive_expression, $.binary_expression),
+            alias($.multiplicative_expression, $.binary_expression),
             $.prefix_expression,
             
             $._primary,
@@ -2078,7 +2077,7 @@ module.exports = grammar({
 
         if_null_expression: $ => prec.left( //left
             DART_PREC.If_Null,
-            sep2($._real_expression,"??")
+            sep2($._real_expression, "??")
         ),
 
         /*** 17.26: Logical boolean expressions ***/
@@ -2250,6 +2249,7 @@ module.exports = grammar({
         additive_expression: $ => binaryRunLeft($._real_expression, $.additive_operator, $.super, DART_PREC.Additive),        
 
 
+        // FIXME: This is weird.
         additive_operator: $ => $._additive_operator,
         _additive_operator: $ => token(
             choice(
@@ -3748,7 +3748,7 @@ function sep1(rule, separator) {
 }
 
 function sep2(rule, separator) {
-    return seq(rule, repeat1(seq(separator, rule)));
+    return seq(field("left", rule), repeat1(seq(field("operator", separator), field("right", rule))));
 }
 
 function commaSep1(rule) {
