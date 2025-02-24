@@ -151,7 +151,7 @@ module.exports = grammar({
         // [$._var_or_type, $._final_var_or_type, $._function_formal_parameter],
         // [$._var_or_type, $._function_formal_parameter],
         [$._function_formal_parameter],
-        
+        [$._for_initializer_statement, $._for_in_loop_prefix],
         
         // [$.set_or_map_literal, $.map_pattern],
         // [$.list_literal, $.list_pattern],
@@ -2635,7 +2635,7 @@ module.exports = grammar({
             seq(
                 $._for_in_loop_prefix,
                 'in',
-                $._expression
+                field("collection", $._expression)
             )
         ),
 
@@ -2645,7 +2645,7 @@ module.exports = grammar({
         ),
 
         _for_in_loop_prefix: $ => choice(
-            seq($._metadata,$._declared_identifier),
+            seq(optional($._metadata),$._declared_identifier),
             $.identifier
         ),
 

@@ -7745,8 +7745,16 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_metadata"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_metadata"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             },
             {
               "type": "SYMBOL",
@@ -11212,6 +11220,10 @@
     ],
     [
       "_function_formal_parameter"
+    ],
+    [
+      "_for_initializer_statement",
+      "_for_in_loop_prefix"
     ],
     [
       "constructor_tearoff",

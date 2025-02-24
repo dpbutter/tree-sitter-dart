@@ -1,1 +1,6 @@
-var foo = a+b*c+d;
+int main() {
+
+    for (final item in this) {
+        print();
+    }
+}
