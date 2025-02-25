@@ -2905,7 +2905,9 @@ module.exports = grammar({
             ),
             seq(
                 $._import,
-                $.uri,
+                // FIXME: Adjusted this to be simpler to parse.
+                $.configurable_uri,
+                // $.uri,
                 $._deferred,
                 $._as,
                 $.identifier,
