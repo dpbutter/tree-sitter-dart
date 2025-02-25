@@ -8693,7 +8693,7 @@
             },
             {
               "type": "SYMBOL",
-              "name": "uri"
+              "name": "configurable_uri"
             },
             {
               "type": "SYMBOL",
@@ -11473,4 +11473,3 @@
     "_literal"
   ]
 }
-
