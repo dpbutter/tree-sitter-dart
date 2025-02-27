@@ -3872,7 +3872,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -3946,11 +3946,11 @@
           "named": true
         },
         {
-          "type": "this",
+          "type": "templated_type",
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "this",
           "named": true
         },
         {
@@ -4011,7 +4011,7 @@
       "required": true,
       "types": [
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -4129,7 +4129,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -4980,7 +4980,7 @@
             "named": true
           },
           {
-            "type": "type_arguments",
+            "type": "templated_type",
             "named": true
           },
           {
@@ -5616,15 +5616,15 @@
           "named": true
         },
         {
+          "type": "templated_type",
+          "named": true
+        },
+        {
           "type": "this",
           "named": true
         },
         {
           "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
           "named": true
         },
         {
@@ -5732,7 +5732,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -6153,7 +6153,7 @@
             "named": true
           },
           {
-            "type": "type_arguments",
+            "type": "templated_type",
             "named": true
           },
           {
@@ -6199,7 +6199,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -6276,7 +6276,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -6335,7 +6335,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -7876,7 +7876,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -8212,7 +8212,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -8914,7 +8914,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -9034,7 +9034,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -9065,7 +9065,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -9279,7 +9279,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -9314,7 +9314,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -9375,7 +9375,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -9557,15 +9557,15 @@
           "named": true
         },
         {
+          "type": "templated_type",
+          "named": true
+        },
+        {
           "type": "this",
           "named": true
         },
         {
           "type": "throw_expression",
-          "named": true
-        },
-        {
-          "type": "type_arguments",
           "named": true
         },
         {
@@ -10614,7 +10614,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -10680,7 +10680,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -11371,7 +11371,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -12132,7 +12132,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -12560,6 +12560,25 @@
     }
   },
   {
+    "type": "templated_type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type_arguments",
+          "named": true
+        },
+        {
+          "type": "type_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "this",
     "named": true,
     "fields": {}
@@ -12884,7 +12903,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -12923,7 +12942,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -12962,7 +12981,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -12997,7 +13016,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -13032,7 +13051,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -13236,7 +13255,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {
@@ -13398,7 +13417,7 @@
           "named": true
         },
         {
-          "type": "type_arguments",
+          "type": "templated_type",
           "named": true
         },
         {

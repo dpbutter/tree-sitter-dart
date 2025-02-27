@@ -3024,7 +3024,10 @@ module.exports = grammar({
             // FIXME: Swapped the below two (twice).
             seq(
                 $._type_name,
-                optional($.type_arguments),
+                optional($.nullable_type)
+            ),
+            seq(
+                $.templated_type,
                 optional($.nullable_type)
             ),
             seq(
@@ -3033,6 +3036,11 @@ module.exports = grammar({
                 optional($.nullable_type)
             ),
         ),
+
+        templated_type: $ => prec(5, seq(
+            $._type_name,
+            $.type_arguments
+        )),
 
         // FIXME: Lowered precedence from 0 to -1. Back to 0.
         _type_name: $ => seq(
@@ -3231,7 +3239,7 @@ module.exports = grammar({
         // _compound_access: $ => choice('.', '?.'),
 
         constructor_tearoff: $ => prec.right(seq(
-          $._type_name, optional($.type_arguments), '.', $._new_builtin,
+          choice($._type_name, $.templated_type),  '.', $._new_builtin,
         )),
 
         index_selector: $ => seq('[', $._expression, ']'),
