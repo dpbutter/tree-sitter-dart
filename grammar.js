@@ -3027,7 +3027,7 @@ module.exports = grammar({
                 optional($.nullable_type)
             ),
             seq(
-                $.templated_type,
+                $.template_type,
                 optional($.nullable_type)
             ),
             seq(
@@ -3037,7 +3037,7 @@ module.exports = grammar({
             ),
         ),
 
-        templated_type: $ => prec(5, seq(
+        template_type: $ => prec(5, seq(
             $._type_name,
             $.type_arguments
         )),
@@ -3239,7 +3239,7 @@ module.exports = grammar({
         // _compound_access: $ => choice('.', '?.'),
 
         constructor_tearoff: $ => prec.right(seq(
-          choice($._type_name, $.templated_type),  '.', $._new_builtin,
+          choice($._type_name, $.template_type),  '.', $._new_builtin,
         )),
 
         index_selector: $ => seq('[', $._expression, ']'),
